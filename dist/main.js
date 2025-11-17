@@ -283,7 +283,7 @@
         consola.start(`Watching for changes in \`${config.entry}\`...`);
         consola.info(`Executing: coffee ${spawnArgs.join(' ')}`);
         compilerProcess = spawn('coffee', spawnArgs, {
-          shell: false
+          shell: true
         });
         debounceTimeout = null;
         lastError = null;
