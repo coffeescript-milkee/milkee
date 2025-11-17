@@ -229,7 +229,7 @@ compile = () ->
       consola.start "Watching for changes in `#{config.entry}`..."
       consola.info "Executing: coffee #{spawnArgs.join ' '}"
 
-      compilerProcess = spawn 'coffee', spawnArgs, { shell: false }
+      compilerProcess = spawn 'coffee', spawnArgs, { shell: true }
 
       debounceTimeout = null
       lastError = null
