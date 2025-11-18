@@ -98,6 +98,8 @@ These options are passed directly to the `coffee` compiler.
 | `literate`  | `boolean` | `false`   | treat stdio as literate style coffeescript              |
 | `watch`     | `boolean` | `false`   | watch scripts for changes and rerun commands            |
 
+[CoffeeScript - command.coffee](https://coffeescript.org/annotated-source/command.html)  
+
 ##### `milkee.options` (Milkee Specific Options)
 
 These options control Milkee's behavior.  
@@ -107,7 +109,26 @@ These options control Milkee's behavior.
 | `refresh` | `boolean` | `false`   | Before compiling, reset the output directory.          |
 | `confirm` | `boolean` | `false`   | Before compiling, prompt "Do you want to Continue?". |
 
-[CoffeeScript - command.coffee](https://coffeescript.org/annotated-source/command.html)  
+##### `milkee.plugins` (Milkee Specific Plugins)
+
+You can extend Milkee's functionality by using plugins. Plugins are simple functions that run after each successful compilation, giving you access to the compiled files and configuration.  
+
+Example:
+
+```js
+const myPlugin = require('./plugins/my-plugin.js');
+
+module.exports = {
+// ...
+  milkee: {
+    plugins: [
+      // This call returns the PluginExecutor
+      myPlugin({ option: 'value' }),
+      // ...
+    ]
+  }
+}
+```
 
 ### Compile
 
