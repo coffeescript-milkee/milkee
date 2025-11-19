@@ -156,7 +156,7 @@
   };
 
   compile = async function() {
-    var compilerProcess, config, debounceTimeout, enabledOptions, enabledOptionsList, error, execCommand, execCommandParts, execOtherOptionStrings, i, item, itemPath, items, lastError, len, milkee, milkeeOptions, options, optionsForPlugins, spawnArgs, summary, targetDir, toContinue;
+    var compilerProcess, config, debounceTimeout, enabledOptions, enabledOptionsList, error, execCommand, execCommandParts, execOtherOptionStrings, i, item, itemPath, items, lastError, len, milkee, milkeeOptions, options, spawnArgs, stat, summary, targetDir, toContinue;
     checkCoffee();
     if (!fs.existsSync(CONFIG_PATH)) {
       consola.error(`\`${CONFIG_FILE}\` not found in this directory: ${CWD}`);
@@ -169,7 +169,7 @@
         consola.error('`entry` and `output` properties are required in your configuration.');
         process.exit(1);
       }
-      options = config.options || {};
+      options = {...(config.options || {})};
       milkee = config.milkee || {};
       milkeeOptions = config.milkee.options || {};
       execCommandParts = ['coffee'];
@@ -259,24 +259,32 @@
           return;
         }
       }
-      optionsForPlugins = {...options};
       delete options.join;
       if (milkeeOptions.refresh) {
         targetDir = path.join(CWD, config.output);
-        if (!fs.existsSync(targetDir)) {
-          consola.info("Refresh skipped.");
-        } else {
-          consola.info("Executing: Refresh");
-          items = fs.readdirSync(targetDir);
-          for (i = 0, len = items.length; i < len; i++) {
-            item = items[i];
-            itemPath = path.join(targetDir, item);
-            fs.rmSync(itemPath, {
-              recursive: true,
+        if (fs.existsSync(targetDir)) {
+          stat = fs.statSync(targetDir);
+          if (stat.isDirectory()) {
+            consola.info("Executing: Refresh");
+            items = fs.readdirSync(targetDir);
+            for (i = 0, len = items.length; i < len; i++) {
+              item = items[i];
+              itemPath = path.join(targetDir, item);
+              fs.rmSync(itemPath, {
+                recursive: true,
+                force: true
+              });
+            }
+            consola.success("Refreshed!");
+          } else {
+            consola.info("Executing: Refresh (Single File)");
+            fs.rmSync(targetDir, {
               force: true
             });
+            consola.success("Refreshed!");
           }
-          consola.success("Refreshed!");
+        } else {
+          consola.info("Refresh skipped.");
         }
       }
       if (options.watch) {
@@ -310,7 +318,7 @@
               consola.warn("Compilation failed, plugins skipped.");
             } else {
               consola.success('Compilation successful (watch mode).');
-              runPlugins(config, optionsForPlugins, '(watch mode)', '');
+              runPlugins(config, {...(config.options || {})}, '(watch mode)', '');
             }
             return lastError = null;
           }, 100);
@@ -341,7 +349,7 @@
           if (stderr && !error) {
             process.stderr.write(stderr);
           }
-          return runPlugins(config, optionsForPlugins, stdout, stderr);
+          return runPlugins(config, {...(config.options || {})}, stdout, stderr);
         });
       }
     } catch (error1) {
