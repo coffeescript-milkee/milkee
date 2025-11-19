@@ -130,7 +130,7 @@ compile = () ->
       consola.error '`entry` and `output` properties are required in your configuration.'
       process.exit 1
 
-    options = config.options or {}
+    options = { ...(config.options or {}) }
     milkee = config.milkee or {}
     milkeeOptions = config.milkee.options or {}
 
@@ -210,20 +210,25 @@ compile = () ->
         consola.info "Canceled."
         return
 
-    optionsForPlugins = { ...options }
     delete options.join
 
     if milkeeOptions.refresh
       targetDir = path.join CWD, config.output
-      unless fs.existsSync targetDir
-        consola.info "Refresh skipped."
+      if fs.existsSync targetDir
+        stat = fs.statSync targetDir
+        if stat.isDirectory()
+          consola.info "Executing: Refresh"
+          items = fs.readdirSync targetDir
+          for item in items
+            itemPath = path.join targetDir, item
+            fs.rmSync itemPath, recursive: true, force: true
+          consola.success "Refreshed!"
+        else
+          consola.info "Executing: Refresh (Single File)"
+          fs.rmSync targetDir, force: true
+          consola.success "Refreshed!"
       else
-        consola.info "Executing: Refresh"
-        items = fs.readdirSync targetDir
-        for item in items
-          itemPath = path.join targetDir, item
-          fs.rmSync itemPath, recursive: true, force: true
-        consola.success "Refreshed!"
+        consola.info "Refresh skipped."
 
     if options.watch
       consola.start "Watching for changes in `#{config.entry}`..."
@@ -255,7 +260,7 @@ compile = () ->
             consola.warn "Compilation failed, plugins skipped."
           else
             consola.success 'Compilation successful (watch mode).'
-            runPlugins config, optionsForPlugins, '(watch mode)', ''
+            runPlugins config, { ...(config.options or {}) }, '(watch mode)', ''
 
           lastError = null
         , 100
@@ -282,7 +287,7 @@ compile = () ->
         if stdout then process.stdout.write stdout
         if stderr and not error then process.stderr.write stderr
 
-        runPlugins config, optionsForPlugins, stdout, stderr
+        runPlugins config, { ...(config.options or {}) }, stdout, stderr
 
   catch error
     consola.error 'Failed to load or execute configuration:', error
