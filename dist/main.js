@@ -101,7 +101,9 @@
         }
       } else if (stat.isFile()) {
         if (targetPath.endsWith('.js' || targetPath.endsWith('.js.map'))) {
-          consola.info(`Found file: ${targetPath}`);
+          if (fs.existsSync(targetPath)) {
+            consola.info(`Found file: \`${targetPath}\``);
+          }
           filesList.push(targetPath);
         }
       }
@@ -265,8 +267,8 @@
       backupFiles = [];
       restoreBackups = function() {
         var backup, e, i, len;
+        consola.info("Restoring previous files...");
         if (backupFiles.length > 0) {
-          consola.info("Restoring previous files...");
           for (i = 0, len = backupFiles.length; i < len; i++) {
             backup = backupFiles[i];
             try {
@@ -284,6 +286,8 @@
             }
           }
           return consola.success("Restored!");
+        } else {
+          return consola.info("No files found to restore.");
         }
       };
       clearBackups = function() {
@@ -318,6 +322,7 @@
             if (stat.isDirectory()) {
               consola.info("Executing: Refresh");
               items = fs.readdirSync(targetDir);
+              consola.start("Bucking up files...");
               for (i = 0, len = items.length; i < len; i++) {
                 item = items[i];
                 originalPath = path.join(targetDir, item);
@@ -331,7 +336,7 @@
               }
               // itemPath = path.join targetDir, item
               // fs.rmSync itemPath, recursive: true, force: true
-              consola.success(`Existing: files backed up with hash \`${hash}\``);
+              consola.success(`Files backed up with hash \`${hash}\``);
             } else {
               // consola.success "Refreshed!"
               consola.info("Executing: Refresh (Single File)");
