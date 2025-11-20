@@ -56,14 +56,14 @@ getCompiledFiles = (targetPath) ->
   filesList = []
 
   unless fs.existsSync targetPath
-    consola.trace "Path does not exist, skipping scan #{targetPath}"
+    consola.warn "Path does not exist, skipping scan #{targetPath}"
     return []
 
   try
     stat = fs.statSync targetPath
 
     if stat.isDirectory()
-      consola.trace "Scanning directory: #{targetPath}"
+      consola.start "Scanning directory: #{targetPath}"
       items = fs.readdirSync targetPath
 
       for item in items
@@ -72,7 +72,7 @@ getCompiledFiles = (targetPath) ->
 
     else if stat.isFile()
       if targetPath.endsWith '.js' or targetPath.endsWith '.js.map'
-        consola.trace "Found file: #{targetPath}"
+        consola.info "Found file: #{targetPath}"
         filesList.push targetPath
   catch error
     consola.warn "Could not scan output path #{targetPath}: #{error.message}"
@@ -230,7 +230,7 @@ compile = () ->
 
     clearBackups = () ->
       if backupFiles.length > 0
-        consola.trace "Cleaning up backups..."
+        consola.start "Cleaning up backups..."
         for backup in backupFiles
           try
             if fs.existsSync backup.backup
@@ -340,7 +340,9 @@ compile = () ->
           return
 
         setTimeout ->
-          if milkeeOptions.refresh then clearBackups()
+          if milkeeOptions.refresh
+            clearBackups()
+            consola.success 'Backup clearing completed!'
           consola.success 'Compilation completed successfully!'
         , 500
 
