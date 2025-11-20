@@ -421,13 +421,13 @@
             }
             process.exit(1);
             return;
-            setTimeout(function() {
-              if (milkeeOptions.refresh) {
-                clearBackups();
-              }
-              return consola.success('Compilation completed successfully!');
-            }, 500);
           }
+          setTimeout(function() {
+            if (milkeeOptions.refresh) {
+              clearBackups();
+            }
+            return consola.success('Compilation completed successfully!');
+          }, 500);
           if (stdout) {
             process.stdout.write(stdout);
           }
