@@ -339,10 +339,10 @@ compile = () ->
           process.exit 1
           return
 
-          setTimeout ->
-            if milkeeOptions.refresh then clearBackups()
-            consola.success 'Compilation completed successfully!'
-          , 500
+        setTimeout ->
+          if milkeeOptions.refresh then clearBackups()
+          consola.success 'Compilation completed successfully!'
+        , 500
 
         if stdout then process.stdout.write stdout
         if stderr and not error then process.stderr.write stderr
