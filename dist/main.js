@@ -86,13 +86,13 @@
     var error, filesList, i, item, itemPath, items, len, stat;
     filesList = [];
     if (!fs.existsSync(targetPath)) {
-      consola.trace(`Path does not exist, skipping scan ${targetPath}`);
+      consola.warn(`Path does not exist, skipping scan ${targetPath}`);
       return [];
     }
     try {
       stat = fs.statSync(targetPath);
       if (stat.isDirectory()) {
-        consola.trace(`Scanning directory: ${targetPath}`);
+        consola.start(`Scanning directory: ${targetPath}`);
         items = fs.readdirSync(targetPath);
         for (i = 0, len = items.length; i < len; i++) {
           item = items[i];
@@ -101,7 +101,7 @@
         }
       } else if (stat.isFile()) {
         if (targetPath.endsWith('.js' || targetPath.endsWith('.js.map'))) {
-          consola.trace(`Found file: ${targetPath}`);
+          consola.info(`Found file: ${targetPath}`);
           filesList.push(targetPath);
         }
       }
@@ -289,7 +289,7 @@
       clearBackups = function() {
         var backup, e, i, len, results;
         if (backupFiles.length > 0) {
-          consola.trace("Cleaning up backups...");
+          consola.start("Cleaning up backups...");
           results = [];
           for (i = 0, len = backupFiles.length; i < len; i++) {
             backup = backupFiles[i];
@@ -425,6 +425,7 @@
           setTimeout(function() {
             if (milkeeOptions.refresh) {
               clearBackups();
+              consola.success('Backup clearing completed!');
             }
             return consola.success('Compilation completed successfully!');
           }, 500);
