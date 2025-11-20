@@ -72,7 +72,7 @@ getCompiledFiles = (targetPath) ->
 
     else if stat.isFile()
       if targetPath.endsWith '.js' or targetPath.endsWith '.js.map'
-        consola.info "Found file: #{targetPath}"
+        if fs.existsSync targetPath then consola.info "Found file: `#{targetPath}`"
         filesList.push targetPath
   catch error
     consola.warn "Could not scan output path #{targetPath}: #{error.message}"
@@ -215,8 +215,8 @@ compile = () ->
 
     backupFiles = []
     restoreBackups = () ->
+      consola.info "Restoring previous files..."
       if backupFiles.length > 0
-        consola.info "Restoring previous files..."
         for backup in backupFiles
           try
             if fs.existsSync backup.original
@@ -227,6 +227,8 @@ compile = () ->
           catch e
             consola.warn "Failed to restore #{backup.original}"
         consola.success "Restored!"
+      else
+        consola.info "No files found to restore."
 
     clearBackups = () ->
       if backupFiles.length > 0
@@ -250,6 +252,7 @@ compile = () ->
           if stat.isDirectory()
             consola.info "Executing: Refresh"
             items = fs.readdirSync targetDir
+            consola.start "Bucking up files..."
             for item in items
               originalPath = path.join targetDir, item
               backupName = "#{hash}.#{item}.bak"
@@ -258,7 +261,7 @@ compile = () ->
               backupFiles.push original: originalPath, backup: backupPath
               # itemPath = path.join targetDir, item
               # fs.rmSync itemPath, recursive: true, force: true
-            consola.success "Existing: files backed up with hash `#{hash}`"
+            consola.success "Files backed up with hash `#{hash}`"
             # consola.success "Refreshed!"
           else
             consola.info "Executing: Refresh (Single File)"
