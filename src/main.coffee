@@ -4,6 +4,7 @@ consola = require 'consola'
 fs = require 'fs'
 path = require 'path'
 { exec, spawn } = require 'child_process'
+crypto = require 'crypto'
 
 pkg = require '../package.json'
 CWD = process.cwd()
@@ -212,27 +213,80 @@ compile = () ->
 
     delete options.join
 
+    backupFiles = []
+    restoreBackups = () ->
+      if backupFiles.length > 0
+        consola.info "Restoring previous files..."
+        for backup in backupFiles
+          try
+            if fs.existsSync backup.original
+              fs.rmSync backup.original, force: true
+
+            if fs.existsSync backup.backup
+              fs.renameSync backup.backup, backup.original
+          catch e
+            consola.warn "Failed to restore #{backup.original}"
+        consola.success "Restored!"
+
+    clearBackups = () ->
+      if backupFiles.length > 0
+        consola.trace "Cleaning up backups..."
+        for backup in backupFiles
+          try
+            if fs.existsSync backup.backup
+              fs.rmSync backup.backup, force: true
+          catch e
+            null
+
     if milkeeOptions.refresh
       targetDir = path.join CWD, config.output
       if fs.existsSync targetDir
         stat = fs.statSync targetDir
-        if stat.isDirectory()
-          consola.info "Executing: Refresh"
-          items = fs.readdirSync targetDir
-          for item in items
-            itemPath = path.join targetDir, item
-            fs.rmSync itemPath, recursive: true, force: true
-          consola.success "Refreshed!"
-        else
-          consola.info "Executing: Refresh (Single File)"
-          fs.rmSync targetDir, force: true
-          consola.success "Refreshed!"
+        hash = crypto
+          .randomBytes 4
+          .toString 'hex'
+
+        try
+          if stat.isDirectory()
+            consola.info "Executing: Refresh"
+            items = fs.readdirSync targetDir
+            for item in items
+              originalPath = path.join targetDir, item
+              backupName = "#{hash}.#{item}.bak"
+              backupPath = path.join targetDir, backupName
+              fs.renameSync originalPath, backupPath
+              backupFiles.push original: originalPath, backup: backupPath
+              # itemPath = path.join targetDir, item
+              # fs.rmSync itemPath, recursive: true, force: true
+            consola.success "Existing: files backed up with hash `#{hash}`"
+            # consola.success "Refreshed!"
+          else
+            consola.info "Executing: Refresh (Single File)"
+
+            originalPath = targetDir
+            fileName = path.basename originalPath
+            dirName = path.dirname originalPath
+            backupName = "#{hash}.#{fileName}.bak"
+            backupPath = path.join dirName, backupName
+            fs.renameSync originalPath, backupPath
+            backupFiles.push original: originalPath, backup: backupPath
+            consola.success "Existing file backed up as `#{backupName}`"
+            # fs.rmSync targetDir, force: true
+            # consola.success "Refreshed!"
+        catch error
+          consola.error "Failed to create backups during refresh:", error
+          restoreBackups()
+          process.exit 1
       else
         consola.info "Refresh skipped."
 
     if options.watch
       consola.start "Watching for changes in `#{config.entry}`..."
       consola.info "Executing: coffee #{spawnArgs.join ' '}"
+
+      if milkeeOptions.refresh
+        consola.warn "Refresh backup is disabled in watch mode (backups are cleared immediately)."
+        clearBackups()
 
       compilerProcess = spawn 'coffee', spawnArgs, { shell: true }
 
@@ -250,6 +304,7 @@ compile = () ->
         if stdoutMsg
           consola.log stdoutMsg
 
+        debounceTimeout = null
         lastError = null
 
         if debounceTimeout
@@ -280,10 +335,15 @@ compile = () ->
         if error
           consola.error 'Compilation failed:', error
           if stderr then consola.error stderr.toString().trim()
+          if milkeeOptions.refresh then restoreBackups()
           process.exit 1
           return
 
-        consola.success 'Compilation completed successfully!'
+          setTimeout ->
+            if milkeeOptions.refresh then clearBackups()
+            consola.success 'Compilation completed successfully!'
+          , 500
+
         if stdout then process.stdout.write stdout
         if stderr and not error then process.stderr.write stderr
 
