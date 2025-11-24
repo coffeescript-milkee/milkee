@@ -40,7 +40,7 @@
       if (res.success && !res.isLatest) {
         consola.box({
           title: "A new version is now available!",
-          message: `${res.currentVersion} --> \`${res.latestVersion}\`\n\n# global installation\n\`npm i -g milkee@latest\`\n\n# or local installation\n\`npm i -D milkee@latest\`\n`
+          message: `${res.currentVersion} --> \`${res.latestVersion}\`\n\n# global installation\n\`npm i -g milkee@latest\`\n# or local installation\n\`npm i -D milkee@latest\``
         });
         return true;
       } else {
@@ -188,10 +188,47 @@
 
   // async
   compile = async function() {
-    var backupFiles, backupName, backupPath, cl, clearBackups, compilerProcess, config, debounceTimeout, dirName, enabledOptions, enabledOptionsList, error, execCommand, execCommandParts, execOtherOptionStrings, fileName, hash, i, item, items, lastError, len, milkee, milkeeOptions, options, originalPath, restoreBackups, spawnArgs, stat, summary, targetDir, toContinue;
+    var action, backupFiles, backupName, backupPath, cl, clearBackups, compilerProcess, config, debounceTimeout, dirName, enabledOptions, enabledOptionsList, error, execCommand, execCommandParts, execOtherOptionStrings, fileName, hash, i, installCmd, item, items, lastError, len, milkee, milkeeOptions, options, originalPath, restoreBackups, spawnArgs, stat, summary, targetDir, toContinue;
     cl = (await checkLatest());
     if (cl) {
-      await sleep(1000);
+      action = (await consola.prompt("Do you want to update now?", {
+        type: 'select',
+        options: [
+          {
+            label: 'No (Skip)',
+            value: 'skip',
+            hint: 'Start compiling directly'
+          },
+          {
+            label: 'Yes (Global)',
+            value: 'global',
+            hint: 'npm i -g milkee@latest'
+          },
+          {
+            label: 'Yes (Local)',
+            value: 'local',
+            hint: 'npm i -D milkee@latest'
+          }
+        ]
+      }));
+      if (action && action !== 'skip') {
+        installCmd = action === 'global' ? 'npm i -g milkee@latest' : 'npm i -D milkee@latest';
+        consola.start("Updating milkee...");
+        await new Promise(function(resolve) {
+          var cp;
+          cp = spawn(installCmd, {
+            shell: true,
+            stdio: 'inherit'
+          });
+          return cp.on('close', resolve);
+        });
+        consola.success("Update finished! Please run the command again.");
+        process.exit(0);
+      } else if (action === 'skip') {
+        consola.info("Skipped!");
+      } else if (!action) {
+        process.exit(1);
+      }
     }
     checkCoffee();
     if (!fs.existsSync(CONFIG_PATH)) {
