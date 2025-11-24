@@ -12,14 +12,21 @@ CWD = process.cwd()
 CONFIG_FILE = 'coffee.config.cjs'
 CONFIG_PATH = path.join CWD, CONFIG_FILE
 
+sleep = (time) ->
+  new Promise (resolve) ->
+    setTimeout resolve, time
+
 # async
 checkLatest = () ->
   try
     res = await isPackageLatest pkg
     if res.success and not res.isLatest
       consola.box title: "A new version is now available!", message: "#{res.currentVersion} --> `#{res.latestVersion}`\n\n# global installation\n`npm i -g milkee@latest`\n\n# or local installation\n`npm i -D milkee@latest`\n"
+      return true
+    else
+      return false
   catch
-    null
+    return false
 
 checkCoffee = () ->
   PKG_PATH = path.join CWD, 'package.json'
@@ -130,7 +137,8 @@ runPlugins = (config, options, stdout = '', stderr = '') ->
 
 # async
 compile = () ->
-  await checkLatest()
+  cl = await checkLatest()
+  if cl then await sleep 1000
   checkCoffee()
   unless fs.existsSync CONFIG_PATH
     consola.error "`#{CONFIG_FILE}` not found in this directory: #{CWD}"
