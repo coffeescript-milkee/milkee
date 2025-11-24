@@ -31,7 +31,7 @@
     var res;
     try {
       res = (await isPackageLatest(pkg));
-      if (res.success && res.isLatest) {
+      if (res.success && !res.isLatest) {
         return consola.box(`A new version is available!\n\n${res.currentVersion} --> \`${res.latestVersion}\``);
       }
     } catch (error1) {
@@ -174,9 +174,10 @@
     return executePlugins(config, compilationResult);
   };
 
+  // async
   compile = async function() {
     var backupFiles, backupName, backupPath, clearBackups, compilerProcess, config, debounceTimeout, dirName, enabledOptions, enabledOptionsList, error, execCommand, execCommandParts, execOtherOptionStrings, fileName, hash, i, item, items, lastError, len, milkee, milkeeOptions, options, originalPath, restoreBackups, spawnArgs, stat, summary, targetDir, toContinue;
-    checkLatest();
+    await checkLatest();
     checkCoffee();
     if (!fs.existsSync(CONFIG_PATH)) {
       consola.error(`\`${CONFIG_FILE}\` not found in this directory: ${CWD}`);
