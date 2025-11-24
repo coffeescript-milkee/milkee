@@ -119,7 +119,7 @@ Example:
 const myPlugin = require('./plugins/my-plugin.js');
 
 module.exports = {
-// ...
+  // ...
   milkee: {
     plugins: [
       // This call returns the PluginExecutor
