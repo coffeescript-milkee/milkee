@@ -17,7 +17,7 @@ checkLatest = () ->
   try
     res = await isPackageLatest pkg
     if res.success and not res.isLatest
-      consola.box "A new version is available!\n\n#{res.currentVersion} --> `#{res.latestVersion}`"
+      consola.box title: "A new version is now available!", message: "#{res.currentVersion} --> `#{res.latestVersion}`\n\n# global installation\n`npm i -g milkee@latest`\n\n# or local installation\n`npm i -D milkee@latest`\n"
   catch
     null
 
