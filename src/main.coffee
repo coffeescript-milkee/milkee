@@ -21,7 +21,7 @@ checkLatest = () ->
   try
     res = await isPackageLatest pkg
     if res.success and not res.isLatest
-      consola.box title: "A new version is now available!", message: "#{res.currentVersion} --> `#{res.latestVersion}`\n\n# global installation\n`npm i -g milkee@latest`\n\n# or local installation\n`npm i -D milkee@latest`\n"
+      consola.box title: "A new version is now available!", message: "#{res.currentVersion} --> `#{res.latestVersion}`\n\n# global installation\n`npm i -g milkee@latest`\n# or local installation\n`npm i -D milkee@latest`"
       return true
     else
       return false
@@ -138,7 +138,26 @@ runPlugins = (config, options, stdout = '', stderr = '') ->
 # async
 compile = () ->
   cl = await checkLatest()
-  if cl then await sleep 1000
+  if cl
+    action = await consola.prompt "Do you want to update now?", type: 'select', options: [
+      { label: 'No (Skip)', value: 'skip', hint: 'Start compiling directly' }
+      { label: 'Yes (Global)', value: 'global', hint: 'npm i -g milkee@latest' }
+      { label: 'Yes (Local)', value: 'local', hint: 'npm i -D milkee@latest' }
+    ]
+    if action and action isnt 'skip'
+      installCmd = if action is 'global' then 'npm i -g milkee@latest' else 'npm i -D milkee@latest'
+      consola.start "Updating milkee..."
+      await new Promise (resolve) ->
+        cp = spawn installCmd, { shell: true, stdio: 'inherit' }
+        cp.on 'close', resolve
+
+      consola.success "Update finished! Please run the command again."
+      process.exit 0
+    else if action is 'skip'
+      consola.info "Skipped!"
+    else unless action
+      process.exit 1
+
   checkCoffee()
   unless fs.existsSync CONFIG_PATH
     consola.error "`#{CONFIG_FILE}` not found in this directory: #{CWD}"
