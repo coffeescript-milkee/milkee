@@ -32,7 +32,10 @@
     try {
       res = (await isPackageLatest(pkg));
       if (res.success && !res.isLatest) {
-        return consola.box(`A new version is available!\n\n${res.currentVersion} --> \`${res.latestVersion}\``);
+        return consola.box({
+          title: "A new version is now available!",
+          message: `${res.currentVersion} --> \`${res.latestVersion}\`\n\n# global installation\n\`npm i -g milkee@latest\`\n\n# or local installation\n\`npm i -D milkee@latest\`\n`
+        });
       }
     } catch (error1) {
       return null;
