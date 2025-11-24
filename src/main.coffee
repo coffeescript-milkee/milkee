@@ -1,6 +1,7 @@
 yargs = require 'yargs'
 { hideBin } = require 'yargs/helpers'
 consola = require 'consola'
+{ isPackageLatest } = require 'is-package-latest'
 fs = require 'fs'
 path = require 'path'
 { exec, spawn } = require 'child_process'
@@ -10,6 +11,15 @@ pkg = require '../package.json'
 CWD = process.cwd()
 CONFIG_FILE = 'coffee.config.cjs'
 CONFIG_PATH = path.join CWD, CONFIG_FILE
+
+# async
+checkLatest = () ->
+  try
+    res = await isPackageLatest pkg
+    if res.success and res.isLatest
+      consola.box "A new version is available!\n\n#{res.currentVersion} --> `#{res.latestVersion}`"
+  catch
+    null
 
 checkCoffee = () ->
   PKG_PATH = path.join CWD, 'package.json'
@@ -87,6 +97,7 @@ executePlugins = (config, compilationResult) ->
 
   consola.start "Running #{plugins.length} plugin(s)..."
 
+  # async
   (->
     try
       for pluginFn in plugins
@@ -118,6 +129,7 @@ runPlugins = (config, options, stdout = '', stderr = '') ->
   executePlugins config, compilationResult
 
 compile = () ->
+  checkLatest()
   checkCoffee()
   unless fs.existsSync CONFIG_PATH
     consola.error "`#{CONFIG_FILE}` not found in this directory: #{CWD}"
