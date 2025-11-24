@@ -16,7 +16,7 @@ CONFIG_PATH = path.join CWD, CONFIG_FILE
 checkLatest = () ->
   try
     res = await isPackageLatest pkg
-    if res.success and res.isLatest
+    if res.success and not res.isLatest
       consola.box "A new version is available!\n\n#{res.currentVersion} --> `#{res.latestVersion}`"
   catch
     null
@@ -128,8 +128,9 @@ runPlugins = (config, options, stdout = '', stderr = '') ->
 
   executePlugins config, compilationResult
 
+# async
 compile = () ->
-  checkLatest()
+  await checkLatest()
   checkCoffee()
   unless fs.existsSync CONFIG_PATH
     consola.error "`#{CONFIG_FILE}` not found in this directory: #{CWD}"
