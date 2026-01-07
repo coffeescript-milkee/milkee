@@ -75,8 +75,10 @@ module.exports = {
     options: {
       // Before compiling, reset the directory.
       // refresh: false,
-      // Before compiling, confirm "Do you want to Continue?"
+      // Before compiling, prompt "Do you want to Continue?".
       // confirm: false,
+      // After compiling, copy non-coffee files from entry to output directory. (Only works when options.join is false)
+      // copy: false,
     },
     plugins: []
   },
@@ -108,6 +110,7 @@ These options control Milkee's behavior.
 | :-------- | :-------- | :------ | :----------------------------------------------------- |
 | `refresh` | `boolean` | `false`   | Before compiling, reset the output directory.          |
 | `confirm` | `boolean` | `false`   | Before compiling, prompt "Do you want to Continue?". |
+| `copy`    | `boolean` | `false`   | After compiling, copy non-coffee files from entry to output directory. (Only works when `options.join` is `false`) |
 
 ##### `milkee.plugins` (Milkee Specific Plugins)
 
