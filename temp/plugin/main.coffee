@@ -17,7 +17,7 @@ for method in ['log', 'info', 'success', 'warn', 'error', 'debug', 'start', 'box
 # Main plugin function
 main = (compilationResult) ->
   { config, compiledFiles, stdout, stderr } = compilationResult
-  
+
   c.info "Compiled #{compiledFiles.length} file(s)"
   for file in compiledFiles
     c.log "  - #{file}"

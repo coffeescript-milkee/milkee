@@ -59,7 +59,7 @@ for method in ['log', 'info', 'success', 'warn', 'error', 'debug', 'start', 'box
 # メインプラグイン関数
 main = (compilationResult) ->
   { config, compiledFiles, stdout, stderr } = compilationResult
-  
+
   c.info "#{compiledFiles.length} ファイルをコンパイルしました"
   for file in compiledFiles
     c.log "  - #{file}"

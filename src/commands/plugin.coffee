@@ -82,12 +82,38 @@ initPackageJson = () ->
   unless fs.existsSync pkgPath
     consola.start "Initializing package.json..."
     try
-      execSync 'npm init -y', cwd: CWD, stdio: 'inherit'
+      execSync 'npm init', cwd: CWD, stdio: 'inherit'
       consola.success "Created `package.json`"
     catch error
       consola.error "Failed to create package.json:", error
       return false
   return true
+
+# Generate README.md
+generateReadme = () ->
+  pkgPath = path.join CWD, 'package.json'
+  readmePath = path.join CWD, 'README.md'
+  templatePath = path.join TEMPLATE_DIR, 'README.md'
+  
+  try
+    unless fs.existsSync templatePath
+      consola.error "Template file not found: #{templatePath}"
+      return false
+    
+    pkg = JSON.parse fs.readFileSync pkgPath, 'utf-8'
+    name = pkg.name or 'your-plugin-name'
+    description = pkg.description or 'A Milkee plugin.'
+    
+    readme = fs.readFileSync templatePath, 'utf-8'
+    readme = readme.replace /\{\{name\}\}/g, name
+    readme = readme.replace /\{\{description\}\}/g, description
+    
+    fs.writeFileSync readmePath, readme
+    consola.success "Created `README.md`"
+    return true
+  catch error
+    consola.error "Failed to create README.md:", error
+    return false
 
 # Main plugin setup function
 plugin = () ->
@@ -97,12 +123,13 @@ plugin = () ->
   consola.info "The following actions will be performed:"
   pkgPath = path.join CWD, 'package.json'
   unless fs.existsSync pkgPath
-    consola.info "  0. Initialize package.json (npm init -y)"
+    consola.info "  0. Initialize package.json (npm init)"
   consola.info "  1. Install dependencies (consola, coffeescript, milkee)"
   consola.info "  2. Create template files:"
   for template in TEMPLATES
     consola.info "     - #{template.dest}"
   consola.info "  3. Update package.json (main, scripts, keywords)"
+  consola.info "  4. Generate README.md"
   consola.info ""
 
   # Confirm before proceeding
@@ -144,6 +171,19 @@ plugin = () ->
   # Update package.json
   consola.start "Updating package.json..."
   updatePackageJson()
+
+  consola.info ""
+
+  # Generate README.md
+  readmePath = path.join CWD, 'README.md'
+  if fs.existsSync readmePath
+    overwrite = await consola.prompt "README.md already exists. Overwrite?", type: "confirm"
+    if overwrite
+      generateReadme()
+    else
+      consola.info "Skipped `README.md`"
+  else
+    generateReadme()
 
   consola.info ""
   consola.success "Milkee plugin setup complete!"
