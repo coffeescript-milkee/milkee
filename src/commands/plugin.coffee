@@ -7,6 +7,7 @@ consola = require 'consola'
 confirmContinue = require '../options/confirm'
 
 TEMPLATE_DIR = path.join __dirname, '..', '..', 'temp', 'plugin'
+DOCS_DIR = path.join __dirname, '..', '..', 'docs'
 
 TEMPLATES = [
   { src: 'main.coffee', dest: 'src/main.coffee' }
@@ -15,6 +16,11 @@ TEMPLATES = [
   { src: '_gitignore', dest: '.gitignore' }
   { src: '_gitattributes', dest: '.gitattributes' }
   { src: '_npmignore', dest: '.npmignore' }
+]
+
+DOCS = [
+  { src: 'PLUGIN.md', dest: 'docs/PLUGIN.md' }
+  { src: 'PLUGIN-ja.md', dest: 'docs/PLUGIN-ja.md' }
 ]
 
 # Create directory if not exists
@@ -30,6 +36,21 @@ copyTemplate = (src, dest) ->
 
   unless fs.existsSync srcPath
     consola.error "Template file not found: #{srcPath}"
+    return false
+
+  ensureDir destPath
+  content = fs.readFileSync srcPath, 'utf-8'
+  fs.writeFileSync destPath, content
+  consola.success "Created `#{dest}`"
+  return true
+
+# Copy docs file
+copyDocs = (src, dest) ->
+  srcPath = path.join DOCS_DIR, src
+  destPath = path.join CWD, dest
+
+  unless fs.existsSync srcPath
+    consola.error "Docs file not found: #{srcPath}"
     return false
 
   ensureDir destPath
@@ -128,8 +149,11 @@ plugin = () ->
   consola.info "  2. Create template files:"
   for template in TEMPLATES
     consola.info "     - #{template.dest}"
-  consola.info "  3. Update package.json (main, scripts, keywords)"
-  consola.info "  4. Generate README.md"
+  consola.info "  3. Copy docs:"
+  for doc in DOCS
+    consola.info "     - #{doc.dest}"
+  consola.info "  4. Update package.json (main, scripts, keywords)"
+  consola.info "  5. Generate README.md"
   consola.info ""
 
   # Confirm before proceeding
@@ -165,6 +189,19 @@ plugin = () ->
         consola.info "Skipped `#{template.dest}`"
         continue
     copyTemplate template.src, template.dest
+
+  consola.info ""
+
+  # Copy docs
+  consola.start "Copying docs..."
+  for doc in DOCS
+    destPath = path.join CWD, doc.dest
+    if fs.existsSync destPath
+      overwrite = await consola.prompt "#{doc.dest} already exists. Overwrite?", type: "confirm"
+      unless overwrite
+        consola.info "Skipped `#{doc.dest}`"
+        continue
+    copyDocs doc.src, doc.dest
 
   consola.info ""
 
