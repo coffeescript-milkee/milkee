@@ -12,9 +12,9 @@ TEMPLATES = [
   { src: 'main.coffee', dest: 'src/main.coffee' }
   { src: 'coffee.config.cjs', dest: CONFIG_FILE }
   { src: 'publish.yml', dest: '.github/workflows/publish.yml' }
-  { src: '.gitignore', dest: '.gitignore' }
-  { src: '.gitattributes', dest: '.gitattributes' }
-  { src: '.npmignore', dest: '.npmignore' }
+  { src: '_gitignore', dest: '.gitignore' }
+  { src: '_gitattributes', dest: '.gitattributes' }
+  { src: '_npmignore', dest: '.npmignore' }
 ]
 
 # Create directory if not exists
