@@ -196,6 +196,9 @@ compile = () ->
           process.exit 1
           return
 
+        if stdout then process.stdout.write stdout
+        if stderr and not error then process.stderr.write stderr
+
         setTimeout ->
           if milkeeOptions.refresh
             clearBackups backupFiles
@@ -210,12 +213,10 @@ compile = () ->
               return
 
           consola.success 'Compilation completed successfully!'
+
+          # Run plugins after all milkee.options are completed
+          runPlugins config, { ...(config.options or {}) }, stdout, stderr
         , 500
-
-        if stdout then process.stdout.write stdout
-        if stderr and not error then process.stderr.write stderr
-
-        runPlugins config, { ...(config.options or {}) }, stdout, stderr
 
   catch error
     consola.error 'Failed to load or execute configuration:', error
