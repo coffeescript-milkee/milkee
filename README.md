@@ -144,3 +144,10 @@ milkee
 # or local
 npx milkee
 ```
+
+## Creating a Plugin
+
+Want to create your own Milkee plugin? Check out the plugin documentation:  
+
+- [English](./docs/PLUGIN.md)
+- [日本語](./docs/PLUGIN-ja.md)
