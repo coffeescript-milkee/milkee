@@ -30,15 +30,15 @@ TEMPLATES = [
     dest: '.github/workflows/publish.yml'
   },
   {
-    src: '.gitignore',
+    src: '_gitignore',
     dest: '.gitignore'
   },
   {
-    src: '.gitattributes',
+    src: '_gitattributes',
     dest: '.gitattributes'
   },
   {
-    src: '.npmignore',
+    src: '_npmignore',
     dest: '.npmignore'
   }
 ];
