@@ -1,0 +1,2 @@
+*.coffee linguist-language=CoffeeScript
+dist/* linguist-generated
