@@ -99,7 +99,7 @@ copyDocs = function(src, dest) {
   return true;
 };
 
-PLUGIN_KEYWORDS = ['milkee', 'coffeescript', 'coffee', 'ext', 'plugin', 'milkee-plugin'];
+PLUGIN_KEYWORDS = ['milkee', 'coffeescript', 'coffee', 'plugin', 'milkee-plugin'];
 
 // Update package.json
 updatePackageJson = function() {
