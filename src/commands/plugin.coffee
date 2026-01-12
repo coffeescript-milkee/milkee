@@ -63,7 +63,6 @@ PLUGIN_KEYWORDS = [
   'milkee'
   'coffeescript'
   'coffee'
-  'ext'
   'plugin'
   'milkee-plugin'
 ]
@@ -115,20 +114,20 @@ generateReadme = () ->
   pkgPath = path.join CWD, 'package.json'
   readmePath = path.join CWD, 'README.md'
   templatePath = path.join TEMPLATE_DIR, 'README.md'
-  
+
   try
     unless fs.existsSync templatePath
       consola.error "Template file not found: #{templatePath}"
       return false
-    
+
     pkg = JSON.parse fs.readFileSync pkgPath, 'utf-8'
     name = pkg.name or 'your-plugin-name'
     description = pkg.description or 'A Milkee plugin.'
-    
+
     readme = fs.readFileSync templatePath, 'utf-8'
     readme = readme.replace /\{\{name\}\}/g, name
     readme = readme.replace /\{\{description\}\}/g, description
-    
+
     fs.writeFileSync readmePath, readme
     consola.success "Created `README.md`"
     return true

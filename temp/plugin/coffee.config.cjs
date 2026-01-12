@@ -29,6 +29,8 @@ module.exports = {
       // refresh: false,
       // Before compiling, confirm "Do you want to Continue?"
       // confirm: false,
+      // After compiling, copy non-coffee files from entry to output directory. (Only works when options.join is false)
+      // copy: false,
     },
     plugins: []
   },
