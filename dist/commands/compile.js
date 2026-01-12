@@ -240,7 +240,13 @@ compile = async function() {
           process.exit(1);
           return;
         }
-        setTimeout(async function() {
+        if (stdout) {
+          process.stdout.write(stdout);
+        }
+        if (stderr && !error) {
+          process.stderr.write(stderr);
+        }
+        return setTimeout(async function() {
           if (milkeeOptions.refresh) {
             clearBackups(backupFiles);
             consola.success('Backup clearing completed!');
@@ -255,15 +261,10 @@ compile = async function() {
               return;
             }
           }
-          return consola.success('Compilation completed successfully!');
+          consola.success('Compilation completed successfully!');
+          // Run plugins after all milkee.options are completed
+          return runPlugins(config, {...(config.options || {})}, stdout, stderr);
         }, 500);
-        if (stdout) {
-          process.stdout.write(stdout);
-        }
-        if (stderr && !error) {
-          process.stderr.write(stderr);
-        }
-        return runPlugins(config, {...(config.options || {})}, stdout, stderr);
       });
     }
   } catch (error1) {
