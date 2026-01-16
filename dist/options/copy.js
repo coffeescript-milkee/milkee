@@ -7,7 +7,7 @@ path = require('path');
 
 consola = require('consola');
 
-({CWD} = require('../constants'));
+({CWD} = require('../lib/constants'));
 
 executeCopy = function(config) {
   var copyNonCoffeeFiles, entryPath, error, outputPath, ref, stat;

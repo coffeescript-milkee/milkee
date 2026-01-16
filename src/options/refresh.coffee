@@ -3,11 +3,11 @@ path = require 'path'
 crypto = require 'crypto'
 consola = require 'consola'
 
-{ CWD } = require '../constants'
+{ CWD } = require '../lib/constants'
 
 # Execute refresh processing
 executeRefresh = (config, backupFiles) ->
-  targetDir = path.join CWD, config.output
+  targetDir = if path.isAbsolute(config.output) then config.output else path.join CWD, config.output
   if fs.existsSync targetDir
     stat = fs.statSync targetDir
     hash = crypto

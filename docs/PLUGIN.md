@@ -71,12 +71,12 @@ module.exports = main
 
 Milkee passes this object to your plugin after compilation:  
 
-| Property        | Type       | Description                                    |
-| :-------------- | :--------- | :--------------------------------------------- |
-| `config`        | `object`   | Full config from `coffee.config.cjs`           |
-| `compiledFiles` | `string[]` | Paths to compiled `.js` and `.js.map` files    |
-| `stdout`        | `string`   | Compiler standard output                       |
-| `stderr`        | `string`   | Compiler standard error                        |
+| Property | Type | Description |
+| :--- | :--- | :--- |
+| `config` | `object` | Full config from `coffee.config.cjs` |
+| `compiledFiles` | `string[]` | Paths to compiled `.js` and `.js.map` files |
+| `stdout` | `string` | Compiler standard output |
+| `stderr` | `string` | Compiler standard error |
 
 ### Using in coffee.config.cjs
 

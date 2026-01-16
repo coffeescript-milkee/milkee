@@ -1,5 +1,5 @@
 path = require 'path'
-pkg = require '../package.json'
+pkg = require '../../package.json'
 
 CWD = process.cwd()
 CONFIG_FILE = 'coffee.config.cjs'

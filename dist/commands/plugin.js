@@ -10,7 +10,7 @@ path = require('path');
 
 consola = require('consola');
 
-({CWD, CONFIG_FILE} = require('../constants'));
+({CWD, CONFIG_FILE} = require('../lib/constants'));
 
 confirmContinue = require('../options/confirm');
 

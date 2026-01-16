@@ -9,7 +9,7 @@ crypto = require('crypto');
 
 consola = require('consola');
 
-({CWD} = require('../constants'));
+({CWD} = require('../lib/constants'));
 
 // Execute refresh processing
 executeRefresh = function(config, backupFiles) {

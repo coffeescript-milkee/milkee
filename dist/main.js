@@ -5,7 +5,7 @@ yargs = require('yargs');
 
 ({hideBin} = require('yargs/helpers'));
 
-({pkg} = require('./constants'));
+({pkg} = require('./lib/constants'));
 
 setup = require('./commands/setup');
 
