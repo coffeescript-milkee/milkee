@@ -2,8 +2,8 @@ fs = require 'fs'
 path = require 'path'
 consola = require 'consola'
 
-{ CONFIG_FILE, CONFIG_PATH } = require '../constants'
-{ checkCoffee } = require '../checks'
+{ CONFIG_FILE, CONFIG_PATH } = require '../lib/constants'
+{ checkCoffee } = require '../lib/checks'
 
 # async
 setup = () ->

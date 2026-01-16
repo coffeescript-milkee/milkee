@@ -71,12 +71,12 @@ module.exports = main
 
 Milkee はコンパイル後にこのオブジェクトをプラグインに渡します：  
 
-| プロパティ      | 型         | 説明                                           |
-| :-------------- | :--------- | :--------------------------------------------- |
-| `config`        | `object`   | `coffee.config.cjs` の設定オブジェクト         |
-| `compiledFiles` | `string[]` | コンパイルされた `.js` と `.js.map` のパス     |
-| `stdout`        | `string`   | コンパイラの標準出力                           |
-| `stderr`        | `string`   | コンパイラの標準エラー                         |
+| プロパティ | 型 | 説明 |
+| :--- | :--- | :--- |
+| `config` | `object` | `coffee.config.cjs` の設定オブジェクト |
+| `compiledFiles` | `string[]` | コンパイルされた `.js` と `.js.map` のパス |
+| `stdout` | `string` | コンパイラの標準出力 |
+| `stderr` | `string` | コンパイラの標準エラー |
 
 ### coffee.config.cjs での使用
 

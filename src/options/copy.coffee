@@ -2,7 +2,7 @@ fs = require 'fs'
 path = require 'path'
 consola = require 'consola'
 
-{ CWD } = require '../constants'
+{ CWD } = require '../lib/constants'
 
 executeCopy = (config) ->
   entryPath = path.join CWD, config.entry
