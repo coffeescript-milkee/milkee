@@ -7,7 +7,8 @@
     "milkee": "bin/milkee.js"
   },
   "scripts": {
-    "test": "echo \"No test specified\" && exit 0",
+    "test": "prettier --write ./test && vitest",
+    "test:ci": "vitest --run --coverage",
     "build": "coffee --output dist/ --compile --bare src/",
     "deprecate:dev": "node ./scripts/deprecate-dev-versions.js"
   },
@@ -42,6 +43,9 @@
     "@babel/core": "^7.28.5",
     "@types/coffeescript": "^2.5.7",
     "coffeescript": "^2.7.0",
-    "dotenv": "^17.2.3"
+    "dotenv": "^17.2.3",
+    "execa": "^9.6.1",
+    "prettier": "^3.8.0",
+    "vitest": "^4.0.17"
   }
 }
