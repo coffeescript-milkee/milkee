@@ -10,6 +10,7 @@
     "test": "prettier --write ./test && vitest",
     "test:ci": "vitest --run --coverage",
     "build": "coffee --output dist/ --compile --bare src/",
+    "format": "prettier --write ./src",
     "deprecate:dev": "node ./scripts/deprecate-dev-versions.js"
   },
   "repository": {
@@ -45,7 +46,8 @@
     "coffeescript": "^2.7.0",
     "dotenv": "^17.2.3",
     "execa": "^9.6.1",
-    "prettier": "^3.8.0",
+    "prettier": "^2.1.0",
+    "prettier-plugin-coffeescript": "^0.1.5",
     "vitest": "^4.0.17"
   }
 }
