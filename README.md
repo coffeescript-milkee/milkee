@@ -1,5 +1,10 @@
 # Milkee
 
+[![Vitest](https://github.com/otoneko1102/coffeescript-milkee/actions/workflows/test.yml/badge.svg)](https://github.com/otoneko1102/coffeescript-milkee/actions)
+[![npm version](https://img.shields.io/npm/v/milkee.svg)](https://www.npmjs.com/package/milkee)
+[![Downloads](https://img.shields.io/npm/dw/milkee.svg)](https://www.npmjs.com/package/milkee)
+[![License](https://img.shields.io/npm/l/milkee.svg)](./LICENSE)
+
 **English** | [日本語](./README-ja.md)  
 
 ![Milkee logo](./img/Milkee-logo.png)  
