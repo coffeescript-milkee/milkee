@@ -31,11 +31,11 @@ getCompiledFiles = function(targetPath) {
         filesList = filesList.concat(getCompiledFiles(itemPath));
       }
     } else if (stat.isFile()) {
-      if (targetPath.endsWith('.js' || targetPath.endsWith('.js.map'))) {
+      if (targetPath.match(/\.js(?:\.map)?$/i)) {
         if (fs.existsSync(targetPath)) {
           consola.info(`Found file: \`${targetPath}\``);
+          filesList.push(targetPath);
         }
-        filesList.push(targetPath);
       }
     }
   } catch (error1) {

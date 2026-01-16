@@ -14,7 +14,7 @@ consola = require('consola');
 // Execute refresh processing
 executeRefresh = function(config, backupFiles) {
   var backupName, backupPath, dirName, error, fileName, hash, i, item, items, len, originalPath, stat, targetDir;
-  targetDir = path.join(CWD, config.output);
+  targetDir = path.isAbsolute(config.output) ? config.output : path.join(CWD, config.output);
   if (fs.existsSync(targetDir)) {
     stat = fs.statSync(targetDir);
     hash = crypto.randomBytes(4).toString('hex');
