@@ -74,7 +74,7 @@ compile = () ->
       execOtherOptionStrings.push '--literate'
 
     if execOtherOptionStrings.length > 0
-        execCommandParts.push execOtherOptionStrings.join ' '
+      execCommandParts.push execOtherOptionStrings.join ' '
 
     execCommandParts.push '--compile'
     execCommandParts.push "\"#{config.entry}\""

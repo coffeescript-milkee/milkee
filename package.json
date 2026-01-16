@@ -10,6 +10,7 @@
     "test": "prettier --write ./test && vitest",
     "test:ci": "vitest --run --coverage",
     "build": "coffee --output dist/ --compile --bare src/",
+    "format": "node ./scripts/format.js",
     "deprecate:dev": "node ./scripts/deprecate-dev-versions.js"
   },
   "repository": {
@@ -35,6 +36,7 @@
   "homepage": "https://github.com/otoneko1102/coffeescript-milkee#readme",
   "dependencies": {
     "@milkee/d": "^0.2.1",
+    "coffee-fmt": "^0.12.0",
     "consola": "^3.4.2",
     "is-package-latest": "^1.0.0",
     "yargs": "^18.0.0"
