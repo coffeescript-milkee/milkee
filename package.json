@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "prettier --write ./test && vitest",
-    "test:ci": "vitest --run --coverage",
+    "test:ci": "vitest --run",
+    "coverage": "vitest --run --coverage",
     "build": "coffee --output dist/ --compile --bare src/",
     "format": "node ./scripts/format.js",
     "deprecate:dev": "node ./scripts/deprecate-dev-versions.js"
@@ -43,6 +44,7 @@
   "devDependencies": {
     "@babel/core": "^7.28.5",
     "@types/coffeescript": "^2.5.7",
+    "@vitest/coverage-v8": "^4.0.17",
     "coffee-fmt": "^0.12.0",
     "coffeescript": "^2.7.0",
     "dotenv": "^17.2.3",
