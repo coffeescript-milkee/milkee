@@ -11,11 +11,11 @@ crypto = require('crypto');
 
 consola = require('consola');
 
-({CWD, CONFIG_PATH, CONFIG_FILE} = require('../constants'));
+({CWD, CONFIG_PATH, CONFIG_FILE} = require('../lib/constants'));
 
-({checkLatest, checkCoffee} = require('../checks'));
+({checkLatest, checkCoffee} = require('../lib/checks'));
 
-({runPlugins} = require('../plugins'));
+({runPlugins} = require('../lib/plugins'));
 
 confirmContinue = require('../options/confirm');
 

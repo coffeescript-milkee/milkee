@@ -7,9 +7,9 @@ path = require('path');
 
 consola = require('consola');
 
-({CONFIG_FILE, CONFIG_PATH} = require('../constants'));
+({CONFIG_FILE, CONFIG_PATH} = require('../lib/constants'));
 
-({checkCoffee} = require('../checks'));
+({checkCoffee} = require('../lib/checks'));
 
 // async
 setup = async function() {

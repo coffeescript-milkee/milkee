@@ -2,11 +2,11 @@ fs = require 'fs'
 path = require 'path'
 consola = require 'consola'
 
-{ CWD } = require '../constants'
+{ CWD } = require '../lib/constants'
 
 executeCopy = (config) ->
-  entryPath = path.join CWD, config.entry
-  outputPath = path.join CWD, config.output
+  entryPath = if path.isAbsolute(config.entry) then config.entry else path.join(CWD, config.entry)
+  outputPath = if path.isAbsolute(config.output) then config.output else path.join(CWD, config.output)
 
   unless fs.existsSync entryPath
     consola.warn "Entry path does not exist: #{config.entry}"

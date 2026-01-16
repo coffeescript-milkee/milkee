@@ -4,9 +4,9 @@ crypto = require 'crypto'
 { spawn, exec } = require 'child_process'
 consola = require 'consola'
 
-{ CWD, CONFIG_PATH, CONFIG_FILE } = require '../constants'
-{ checkLatest, checkCoffee } = require '../checks'
-{ runPlugins } = require '../plugins'
+{ CWD, CONFIG_PATH, CONFIG_FILE } = require '../lib/constants'
+{ checkLatest, checkCoffee } = require '../lib/checks'
+{ runPlugins } = require '../lib/plugins'
 confirmContinue = require '../options/confirm'
 { executeRefresh, restoreBackups, clearBackups } = require '../options/refresh'
 executeCopy = require '../options/copy'
@@ -74,7 +74,7 @@ compile = () ->
       execOtherOptionStrings.push '--literate'
 
     if execOtherOptionStrings.length > 0
-        execCommandParts.push execOtherOptionStrings.join ' '
+      execCommandParts.push execOtherOptionStrings.join ' '
 
     execCommandParts.push '--compile'
     execCommandParts.push "\"#{config.entry}\""

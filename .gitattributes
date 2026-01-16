@@ -1,3 +1,4 @@
 *.coffee linguist-language=CoffeeScript
-dist/* linguist-generated
+dist/** linguist-generated
 scripts/** linguist-vendored
+test/** linguist-vendored
