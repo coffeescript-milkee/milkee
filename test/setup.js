@@ -10,15 +10,24 @@ const SANDBOX = fs.mkdtempSync(path.join(os.tmpdir(), "milkee-test-sandbox-"));
 process.env.TEST_SANDBOX = SANDBOX;
 globalThis.TEST_SANDBOX = SANDBOX;
 
+function stripExtendedPrefix(s) {
+  if (typeof s !== 'string') return s;
+  // Remove Windows extended path prefix like '\\?\\' or '\?\\'
+  let out = s.replace(/^\\+\?\\/, '');
+  // If we still have a leading backslash before a drive letter (e.g. '\C:\...'), remove it
+  out = out.replace(/^\\+([A-Za-z]:)/, '$1');
+  return out;
+}
+
 // Allowlist: sandbox + system temp + node_modules + any additional paths via TEST_WRITE_ALLOW
 const allowed = [
-  path.resolve(SANDBOX),
-  path.resolve(os.tmpdir()),
-  path.resolve(process.cwd(), "node_modules"),
+  path.resolve(stripExtendedPrefix(SANDBOX)),
+  path.resolve(stripExtendedPrefix(os.tmpdir())),
+  path.resolve(stripExtendedPrefix(process.cwd()), "node_modules"),
 ];
 if (process.env.TEST_WRITE_ALLOW) {
   process.env.TEST_WRITE_ALLOW.split(",").forEach((p) => {
-    if (p) allowed.push(path.resolve(p));
+    if (p) allowed.push(path.resolve(stripExtendedPrefix(p)));
   });
 }
 
@@ -26,6 +35,10 @@ function resolveSafe(p) {
   if (!p) return p;
   // accept Buffers as well
   if (Buffer.isBuffer(p)) p = p.toString();
+  // strip Windows extended path prefix if present
+  if (typeof p === 'string') {
+    p = stripExtendedPrefix(p);
+  }
   if (!path.isAbsolute(p)) p = path.join(process.cwd(), String(p));
   return path.resolve(p);
 }

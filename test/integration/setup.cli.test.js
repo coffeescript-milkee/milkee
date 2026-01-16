@@ -7,14 +7,20 @@ describe("cli setup integration", () => {
   it("runs `--setup` and creates coffee.config.cjs", async () => {
     const dir = createTestDir("cli");
 
-    // run the CLI with coffeescript registered (use resolved path so Node can load it from project)
-    const reg = require.resolve("coffeescript/register");
-    const script = require("path").join(process.cwd(), "src", "main.coffee");
+    // run the setup command directly via CoffeeScript so we don't require the ESM-only `yargs` in `main`
+    const scriptPath = require("path").join(process.cwd(), "src", "commands", "setup.coffee");
+    const csRegister = require.resolve("coffeescript/register");
     await new Promise((resolve, reject) => {
-      execFile("node", ["-r", reg, script, "--setup"], { cwd: dir }, (err) => {
-        if (err) return reject(err);
-        resolve();
-      });
+      // -r <abs> -> preload CoffeeScript via absolute path so child process can find it
+      execFile(
+        "node",
+        ["-r", csRegister, "-e", `require(${JSON.stringify(scriptPath)})()`],
+        { cwd: dir },
+        (err) => {
+          if (err) return reject(err);
+          resolve();
+        },
+      );
     });
 
     const cfgPath = path.join(dir, "coffee.config.cjs");
