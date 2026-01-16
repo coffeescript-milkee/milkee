@@ -1,6 +1,6 @@
-**English** | [日本語](./README-ja.md)
-
 # Milkee
+
+**English** | [日本語](./README-ja.md)  
 
 ![Milkee logo](./img/Milkee-logo.png)  
 

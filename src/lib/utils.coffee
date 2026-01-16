@@ -25,9 +25,10 @@ getCompiledFiles = (targetPath) ->
         filesList = filesList.concat getCompiledFiles itemPath
 
     else if stat.isFile()
-      if targetPath.endsWith '.js' or targetPath.endsWith '.js.map'
-        if fs.existsSync targetPath then consola.info "Found file: `#{targetPath}`"
-        filesList.push targetPath
+      if targetPath.match /\.js(?:\.map)?$/i
+        if fs.existsSync targetPath
+          consola.info "Found file: `#{targetPath}`"
+          filesList.push targetPath
   catch error
     consola.warn "Could not scan output path #{targetPath}: #{error.message}"
 
