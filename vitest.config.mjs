@@ -1,6 +1,6 @@
-const { defineConfig } = require('vitest/config');
+import { defineConfig } from 'vitest/config'
 
-module.exports = defineConfig({
+export default defineConfig({
   test: {
     environment: 'node',
     globals: true,
@@ -11,4 +11,4 @@ module.exports = defineConfig({
     reporter: ['text', 'lcov'],
     exclude: ['**/*.coffee']
   }
-});
+})
