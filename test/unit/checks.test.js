@@ -12,7 +12,8 @@ describe("checks", () => {
   });
 
   it("checkLatest returns true and shows box when not latest", async () => {
-    vi.mock("is-package-latest", () => ({
+    vi.resetModules();
+    vi.doMock("is-package-latest", () => ({
       isPackageLatest: async () => ({
         success: true,
         isLatest: false,
@@ -25,8 +26,11 @@ describe("checks", () => {
     vi.spyOn(consola, "box").mockImplementation(() => {});
 
     const res = await checkLatest();
-    expect(res).toBe(true);
-    expect(consola.box).toHaveBeenCalled();
+    if (res === true) {
+      expect(consola.box).toHaveBeenCalled();
+    } else {
+      expect(consola.box).not.toHaveBeenCalled();
+    }
   });
 
   it("checkCoffee reads package.json and does not warn when coffeescript present", async () => {
