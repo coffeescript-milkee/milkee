@@ -4,5 +4,6 @@ scripts/
 src/
 img/
 private/
+test/
 .gitattributes
 vitest.config.mjs
