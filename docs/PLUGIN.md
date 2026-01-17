@@ -131,7 +131,7 @@ npm publish --access public
 ### Naming & Keywords
 
 - Name: `milkee-plugin-xxx` or `@yourname/milkee-plugin-xxx`
-- Keywords (auto-added): `milkee`, `coffeescript`, `coffee`, `ext`, `plugin`, `milkee-plugin`
+- Keywords (auto-added): `milkee`, `coffeescript`, `coffee`, `plugin`, `milkee-plugin`
 
 ### Error Handling
 

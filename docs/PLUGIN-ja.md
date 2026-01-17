@@ -131,7 +131,7 @@ npm publish --access public
 ### 命名規則 & キーワード
 
 - 名前: `milkee-plugin-xxx` または `@yourname/milkee-plugin-xxx`
-- キーワード（自動追加）: `milkee`, `coffeescript`, `coffee`, `ext`, `plugin`, `milkee-plugin`
+- キーワード（自動追加）: `milkee`, `coffeescript`, `coffee`, `plugin`, `milkee-plugin`
 
 ### エラーハンドリング
 
