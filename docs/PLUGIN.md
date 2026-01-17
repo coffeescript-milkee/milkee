@@ -1,5 +1,7 @@
 # Creating a Milkee Plugin
 
+**English** | [日本語](./PLUGIN-ja.md)  
+
 Extend Milkee's functionality with custom plugins.  
 
 ## Quick Start
