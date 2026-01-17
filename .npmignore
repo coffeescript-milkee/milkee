@@ -5,3 +5,4 @@ src/
 img/
 private/
 .gitattributes
+vitest.config.mjs
