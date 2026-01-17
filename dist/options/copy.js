@@ -11,8 +11,8 @@ consola = require('consola');
 
 executeCopy = function(config) {
   var copyNonCoffeeFiles, entryPath, error, outputPath, ref, stat;
-  entryPath = path.join(CWD, config.entry);
-  outputPath = path.join(CWD, config.output);
+  entryPath = path.isAbsolute(config.entry) ? config.entry : path.join(CWD, config.entry);
+  outputPath = path.isAbsolute(config.output) ? config.output : path.join(CWD, config.output);
   if (!fs.existsSync(entryPath)) {
     consola.warn(`Entry path does not exist: ${config.entry}`);
     return;
