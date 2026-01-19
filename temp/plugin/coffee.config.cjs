@@ -13,7 +13,7 @@ module.exports = {
   // Web: https://coffeescript.org/annotated-source/command.html
   options: {
     // The following options are supported:
-    // bare: false,
+    bare: true,
     // join: false,
     // map: false,
     // inlineMap: false,

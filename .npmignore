@@ -1,5 +1,9 @@
 .github/
 node_modules/
+scripts/
 src/
 img/
-.env
+private/
+test/
+.gitattributes
+vitest.config.mjs
