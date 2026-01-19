@@ -3,7 +3,7 @@ path = require 'path'
 consola = require 'consola'
 
 { CONFIG_FILE, CONFIG_PATH } = require '../lib/constants'
-{ checkCoffee } = require '../lib/checks'
+{ checkLatest, checkCoffee } = require '../lib/checks'
 
 # async
 setup = ->

@@ -12,7 +12,7 @@ confirmContinue = require '../options/confirm'
 executeCopy = require '../options/copy'
 
 # async
-compile = ->
+checkVersion = ->
   cl = await checkLatest()
   if cl
     action =
@@ -42,6 +42,8 @@ compile = ->
     else unless action
       process.exit 1
 
+# async
+compile = ->
   checkCoffee()
   unless fs.existsSync CONFIG_PATH
     consola.error "`#{CONFIG_FILE}` not found in this directory: #{CWD}"
@@ -60,6 +62,9 @@ compile = ->
     options = { ...(config.options or {}) }
     milkee = config.milkee or {}
     milkeeOptions = config.milkee.options or {}
+
+    unless milkeeOptions.ignoreUpdate
+      await checkVersion()
 
     execCommandParts = ['coffee']
     if options.join

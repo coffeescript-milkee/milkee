@@ -25,6 +25,8 @@ module.exports = {
   // (Optional) Additional options/plugins for the Milkee builder.
   milkee: {
     options: {
+      // Ignore update notifications.
+      // ignoreUpdate: false,
       // Before compiling, reset the directory.
       // refresh: false,
       // Before compiling, confirm "Do you want to Continue?"
