@@ -18,12 +18,14 @@ executePlugins = (config, compilationResult) ->
     try
       for pluginFn in plugins
         if typeof pluginFn is 'function'
-          await Promise.resolve pluginFn(compilationResult)
+          await Promise.resolve pluginFn compilationResult
         else
-          consola.warn "Invalid plugin definition skipped (expected a function, got #{typeof pluginFn})."
-      consola.success "Plugins executed successfully."
+          consola.warn(
+            "Invalid plugin definition skipped (expected a function, got #{typeof pluginFn})."
+          )
+      consola.success 'Plugins executed successfully.'
     catch error
-      consola.error "An error occurred during plugin execution:", error
+      consola.error 'An error occurred during plugin execution:', error
   )()
 
 runPlugins = (config, options, stdout = '', stderr = '') ->

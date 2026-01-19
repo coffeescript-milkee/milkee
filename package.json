@@ -12,7 +12,7 @@
     "coverage": "vitest --run --coverage",
     "checkversion": "ncu",
     "build": "coffee --output dist/ --compile --bare src/",
-    "format": "node ./scripts/format.js",
+    "format": "cprettier ./src/",
     "deprecate:dev": "node ./scripts/deprecate-dev-versions.js"
   },
   "repository": {
@@ -50,6 +50,7 @@
     "coffeescript": "^2.7.0",
     "dotenv": "^17.2.3",
     "execa": "^9.6.1",
+    "milkee-plugin-prettier": "^1.0.0",
     "npm-check-updates": "^19.3.1",
     "vitest": "^4.0.17"
   }

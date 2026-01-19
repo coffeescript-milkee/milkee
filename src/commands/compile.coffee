@@ -12,25 +12,33 @@ confirmContinue = require '../options/confirm'
 executeCopy = require '../options/copy'
 
 # async
-compile = () ->
+compile = ->
   cl = await checkLatest()
   if cl
-    action = await consola.prompt "Do you want to update now?", type: 'select', options: [
-      { label: 'No (Skip)', value: 'skip', hint: 'Start compiling directly' }
-      { label: 'Yes (Global)', value: 'global', hint: 'npm i -g milkee@latest' }
-      { label: 'Yes (Local)', value: 'local', hint: 'npm i -D milkee@latest' }
-    ]
+    action =
+      await consola.prompt 'Do you want to update now?',
+        type: 'select'
+        options: [
+          label: 'No (Skip)', value: 'skip', hint: 'Start compiling directly'
+        ,
+          label: 'Yes (Global)', value: 'global', hint: 'npm i -g milkee@latest'
+        ,
+          label: 'Yes (Local)', value: 'local', hint: 'npm i -D milkee@latest'
+        ]
     if action and action isnt 'skip'
-      installCmd = if action is 'global' then 'npm i -g milkee@latest' else 'npm i -D milkee@latest'
-      consola.start "Updating milkee..."
+      installCmd = if action is 'global'
+        'npm i -g milkee@latest'
+      else
+        'npm i -D milkee@latest'
+      consola.start 'Updating milkee...'
       await new Promise (resolve) ->
-        cp = spawn installCmd, { shell: true, stdio: 'inherit' }
+        cp = spawn installCmd, shell: true, stdio: 'inherit'
         cp.on 'close', resolve
 
-      consola.success "Update finished! Please run the command again."
+      consola.success 'Update finished! Please run the command again.'
       process.exit 0
     else if action is 'skip'
-      consola.info "Skipped!"
+      consola.info 'Skipped!'
     else unless action
       process.exit 1
 
@@ -44,7 +52,9 @@ compile = () ->
     config = require CONFIG_PATH
 
     unless config.entry and config.output
-      consola.error '`entry` and `output` properties are required in your configuration.'
+      consola.error(
+        '`entry` and `output` properties are required in your configuration.'
+      )
       process.exit 1
 
     options = { ...(config.options or {}) }
@@ -79,9 +89,7 @@ compile = () ->
     execCommandParts.push '--compile'
     execCommandParts.push "\"#{config.entry}\""
 
-    execCommand = execCommandParts
-      .filter Boolean
-      .join ' '
+    execCommand = execCommandParts.filter(Boolean).join ' '
 
     spawnArgs = []
     if options.join
@@ -112,14 +120,12 @@ compile = () ->
     summary = []
     summary.push "Entry: `#{config.entry}`"
     summary.push "Output: `#{config.output}`"
-    enabledOptions = Object
-      .keys options
-      .filter (key) -> options[key]
+    enabledOptions = Object.keys(options).filter (key) -> options[key]
     if enabledOptions.length > 0
       enabledOptionsList = enabledOptions.join ','
       summary.push "Options: #{enabledOptionsList}"
 
-    consola.box title: "Milkee Compilation Summary", message: summary.join '\n'
+    consola.box title: 'Milkee Compilation Summary', message: summary.join '\n'
 
     if milkeeOptions.confirm
       toContinue = await confirmContinue()
@@ -142,10 +148,12 @@ compile = () ->
       consola.info "Executing: coffee #{spawnArgs.join ' '}"
 
       if milkeeOptions.refresh
-        consola.warn "Refresh backup is disabled in watch mode (backups are cleared immediately)."
+        consola.warn(
+          'Refresh backup is disabled in watch mode (backups are cleared immediately).'
+        )
         clearBackups backupFiles
 
-      compilerProcess = spawn 'coffee', spawnArgs, { shell: true }
+      compilerProcess = spawn 'coffee', spawnArgs, shell: true
 
       debounceTimeout = null
       lastError = null
@@ -167,15 +175,23 @@ compile = () ->
         if debounceTimeout
           clearTimeout debounceTimeout
 
-        debounceTimeout = setTimeout ->
-          if lastError
-            consola.warn "Compilation failed, plugins skipped."
-          else
-            consola.success 'Compilation successful (watch mode).'
-            runPlugins config, { ...(config.options or {}) }, '(watch mode)', ''
+        debounceTimeout = setTimeout(
+          ->
+            if lastError
+              consola.warn 'Compilation failed, plugins skipped.'
+            else
+              consola.success 'Compilation successful (watch mode).'
+              runPlugins(
+                config
+                { ...(config.options or {}) }
+                '(watch mode)'
+                ''
+              )
 
-          lastError = null
-        , 100
+            lastError = null
+        ,
+          100
+        )
 
       compilerProcess.on 'close', (code) ->
         consola.info "Watch process exited with code #{code}."
@@ -183,7 +199,6 @@ compile = () ->
       compilerProcess.on 'error', (err) ->
         consola.error 'Failed to start watch process:', err
         process.exit 1
-
     else
       consola.start "Compiling from `#{config.entry}` to `#{config.output}`..."
       consola.info "Executing: #{execCommand}"
@@ -199,24 +214,27 @@ compile = () ->
         if stdout then process.stdout.write stdout
         if stderr and not error then process.stderr.write stderr
 
-        setTimeout ->
-          if milkeeOptions.refresh
-            clearBackups backupFiles
-            consola.success 'Backup clearing completed!'
+        setTimeout(
+          ->
+            if milkeeOptions.refresh
+              clearBackups backupFiles
+              consola.success 'Backup clearing completed!'
 
-          if milkeeOptions.copy
-            try
-              await executeCopy config
-            catch error
-              consola.error 'Failed to copy non-coffee files'
-              process.exit 1
-              return
+            if milkeeOptions.copy
+              try
+                await executeCopy config
+              catch error
+                consola.error 'Failed to copy non-coffee files'
+                process.exit 1
+                return
 
-          consola.success 'Compilation completed successfully!'
+            consola.success 'Compilation completed successfully!'
 
-          # Run plugins after all milkee.options are completed
-          runPlugins config, { ...(config.options or {}) }, stdout, stderr
-        , 500
+            # Run plugins after all milkee.options are completed
+            runPlugins config, { ...(config.options or {}) }, stdout, stderr
+        ,
+          500
+        )
 
   catch error
     consola.error 'Failed to load or execute configuration:', error
