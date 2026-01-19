@@ -5,15 +5,21 @@ consola = require 'consola'
 { CWD } = require '../lib/constants'
 
 executeCopy = (config) ->
-  entryPath = if path.isAbsolute(config.entry) then config.entry else path.join(CWD, config.entry)
-  outputPath = if path.isAbsolute(config.output) then config.output else path.join(CWD, config.output)
+  entryPath = if path.isAbsolute config.entry
+    config.entry
+  else
+    path.join CWD, config.entry
+  outputPath = if path.isAbsolute config.output
+    config.output
+  else
+    path.join CWD, config.output
 
   unless fs.existsSync entryPath
     consola.warn "Entry path does not exist: #{config.entry}"
     return
 
   if config.options?.join
-    consola.info "Copy skipped (join option is enabled)"
+    consola.info 'Copy skipped (join option is enabled)'
     return
 
   unless fs.existsSync outputPath
@@ -22,10 +28,10 @@ executeCopy = (config) ->
 
   stat = fs.statSync entryPath
   unless stat.isDirectory()
-    consola.info "Copy skipped (entry is not a directory)"
+    consola.info 'Copy skipped (entry is not a directory)'
     return
 
-  consola.start "Copying non-coffee files..."
+  consola.start 'Copying non-coffee files...'
 
   try
     copyNonCoffeeFiles = (srcDir, destDir) ->
@@ -51,9 +57,9 @@ executeCopy = (config) ->
             fs.copyFileSync srcItemPath, destItemPath
 
     copyNonCoffeeFiles entryPath, outputPath
-    consola.success "Non-coffee files copied successfully!"
+    consola.success 'Non-coffee files copied successfully!'
   catch error
-    consola.error "Failed to copy non-coffee files:", error
+    consola.error 'Failed to copy non-coffee files:', error
     throw error
 
 module.exports = executeCopy

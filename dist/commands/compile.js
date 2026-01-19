@@ -28,7 +28,7 @@ compile = async function() {
   var action, backupFiles, cl, compilerProcess, config, debounceTimeout, enabledOptions, enabledOptionsList, error, execCommand, execCommandParts, execOtherOptionStrings, installCmd, lastError, milkee, milkeeOptions, options, spawnArgs, summary, toContinue;
   cl = (await checkLatest());
   if (cl) {
-    action = (await consola.prompt("Do you want to update now?", {
+    action = (await consola.prompt('Do you want to update now?', {
       type: 'select',
       options: [
         {
@@ -50,7 +50,7 @@ compile = async function() {
     }));
     if (action && action !== 'skip') {
       installCmd = action === 'global' ? 'npm i -g milkee@latest' : 'npm i -D milkee@latest';
-      consola.start("Updating milkee...");
+      consola.start('Updating milkee...');
       await new Promise(function(resolve) {
         var cp;
         cp = spawn(installCmd, {
@@ -59,10 +59,10 @@ compile = async function() {
         });
         return cp.on('close', resolve);
       });
-      consola.success("Update finished! Please run the command again.");
+      consola.success('Update finished! Please run the command again.');
       process.exit(0);
     } else if (action === 'skip') {
-      consola.info("Skipped!");
+      consola.info('Skipped!');
     } else if (!action) {
       process.exit(1);
     }
@@ -157,7 +157,7 @@ compile = async function() {
       summary.push(`Options: ${enabledOptionsList}`);
     }
     consola.box({
-      title: "Milkee Compilation Summary",
+      title: 'Milkee Compilation Summary',
       message: summary.join('\n')
     });
     if (milkeeOptions.confirm) {
@@ -181,7 +181,7 @@ compile = async function() {
       consola.start(`Watching for changes in \`${config.entry}\`...`);
       consola.info(`Executing: coffee ${spawnArgs.join(' ')}`);
       if (milkeeOptions.refresh) {
-        consola.warn("Refresh backup is disabled in watch mode (backups are cleared immediately).");
+        consola.warn('Refresh backup is disabled in watch mode (backups are cleared immediately).');
         clearBackups(backupFiles);
       }
       compilerProcess = spawn('coffee', spawnArgs, {
@@ -210,7 +210,7 @@ compile = async function() {
         }
         return debounceTimeout = setTimeout(function() {
           if (lastError) {
-            consola.warn("Compilation failed, plugins skipped.");
+            consola.warn('Compilation failed, plugins skipped.');
           } else {
             consola.success('Compilation successful (watch mode).');
             runPlugins(config, {...(config.options || {})}, '(watch mode)', '');

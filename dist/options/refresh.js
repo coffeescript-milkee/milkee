@@ -20,9 +20,9 @@ executeRefresh = function(config, backupFiles) {
     hash = crypto.randomBytes(4).toString('hex');
     try {
       if (stat.isDirectory()) {
-        consola.info("Executing: Refresh");
+        consola.info('Executing: Refresh');
         items = fs.readdirSync(targetDir);
-        consola.start("Backing up files...");
+        consola.start('Backing up files...');
         for (i = 0, len = items.length; i < len; i++) {
           item = items[i];
           originalPath = path.join(targetDir, item);
@@ -36,7 +36,7 @@ executeRefresh = function(config, backupFiles) {
         }
         return consola.success(`Files backed up with hash \`${hash}\``);
       } else {
-        consola.info("Executing: Refresh (Single File)");
+        consola.info('Executing: Refresh (Single File)');
         originalPath = targetDir;
         fileName = path.basename(originalPath);
         dirName = path.dirname(originalPath);
@@ -51,18 +51,18 @@ executeRefresh = function(config, backupFiles) {
       }
     } catch (error1) {
       error = error1;
-      consola.error("Failed to create backups during refresh:", error);
+      consola.error('Failed to create backups during refresh:', error);
       throw error;
     }
   } else {
-    return consola.info("Refresh skipped.");
+    return consola.info('Refresh skipped.');
   }
 };
 
 // Restore backup files
 restoreBackups = function(backupFiles) {
   var backup, e, i, len;
-  consola.info("Restoring previous files...");
+  consola.info('Restoring previous files...');
   if (backupFiles.length > 0) {
     for (i = 0, len = backupFiles.length; i < len; i++) {
       backup = backupFiles[i];
@@ -80,9 +80,9 @@ restoreBackups = function(backupFiles) {
         consola.warn(`Failed to restore ${backup.original}`);
       }
     }
-    return consola.success("Restored!");
+    return consola.success('Restored!');
   } else {
-    return consola.info("No files found to restore.");
+    return consola.info('No files found to restore.');
   }
 };
 
@@ -90,7 +90,7 @@ restoreBackups = function(backupFiles) {
 clearBackups = function(backupFiles) {
   var backup, e, i, len, results;
   if (backupFiles.length > 0) {
-    consola.start("Cleaning up backups...");
+    consola.start('Cleaning up backups...');
     results = [];
     for (i = 0, len = backupFiles.length; i < len; i++) {
       backup = backupFiles[i];

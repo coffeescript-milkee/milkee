@@ -18,7 +18,7 @@ executeCopy = function(config) {
     return;
   }
   if ((ref = config.options) != null ? ref.join : void 0) {
-    consola.info("Copy skipped (join option is enabled)");
+    consola.info('Copy skipped (join option is enabled)');
     return;
   }
   if (!fs.existsSync(outputPath)) {
@@ -27,10 +27,10 @@ executeCopy = function(config) {
   }
   stat = fs.statSync(entryPath);
   if (!stat.isDirectory()) {
-    consola.info("Copy skipped (entry is not a directory)");
+    consola.info('Copy skipped (entry is not a directory)');
     return;
   }
-  consola.start("Copying non-coffee files...");
+  consola.start('Copying non-coffee files...');
   try {
     copyNonCoffeeFiles = function(srcDir, destDir) {
       var destItemPath, i, item, items, len, parentDir, results, srcItemPath;
@@ -68,10 +68,10 @@ executeCopy = function(config) {
       return results;
     };
     copyNonCoffeeFiles(entryPath, outputPath);
-    return consola.success("Non-coffee files copied successfully!");
+    return consola.success('Non-coffee files copied successfully!');
   } catch (error1) {
     error = error1;
-    consola.error("Failed to copy non-coffee files:", error);
+    consola.error('Failed to copy non-coffee files:', error);
     throw error;
   }
 };

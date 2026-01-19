@@ -6,11 +6,11 @@ consola = require('consola');
 // Confirm processing
 confirmContinue = async function() {
   var toContinue;
-  toContinue = (await consola.prompt("Do you want to continue?", {
-    type: "confirm"
+  toContinue = (await consola.prompt('Do you want to continue?', {
+    type: 'confirm'
   }));
   if (!toContinue) {
-    consola.info("Canceled.");
+    consola.info('Canceled.');
     return false;
   }
   return true;

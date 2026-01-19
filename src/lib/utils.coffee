@@ -23,7 +23,6 @@ getCompiledFiles = (targetPath) ->
       for item in items
         itemPath = path.join targetPath, item
         filesList = filesList.concat getCompiledFiles itemPath
-
     else if stat.isFile()
       if targetPath.match /\.js(?:\.map)?$/i
         if fs.existsSync targetPath

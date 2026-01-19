@@ -15,23 +15,23 @@ consola = require('consola');
 setup = async function() {
   var CONFIG_TEMPLATE, TEMPLATE_PATH, check, error, pstat, stat;
   checkCoffee();
-  pstat = "created";
-  stat = "create";
+  pstat = 'created';
+  stat = 'create';
   if (fs.existsSync(CONFIG_PATH)) {
     consola.warn(`\`${CONFIG_FILE}\` already exists in this directory.`);
     check = (await consola.prompt(`Do you want to reset \`${CONFIG_FILE}\`?`, {
-      type: "confirm"
+      type: 'confirm'
     }));
     if (!check) {
-      consola.info("Cancelled.");
+      consola.info('Cancelled.');
       return;
     } else {
       fs.rmSync(CONFIG_PATH, {
         recursive: true,
         force: true
       });
-      pstat = "reset";
-      stat = "reset";
+      pstat = 'reset';
+      stat = 'reset';
     }
   }
   try {
