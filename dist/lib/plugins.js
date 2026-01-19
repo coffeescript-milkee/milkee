@@ -29,10 +29,10 @@ executePlugins = function(config, compilationResult) {
           consola.warn(`Invalid plugin definition skipped (expected a function, got ${typeof pluginFn}).`);
         }
       }
-      return consola.success("Plugins executed successfully.");
+      return consola.success('Plugins executed successfully.');
     } catch (error1) {
       error = error1;
-      return consola.error("An error occurred during plugin execution:", error);
+      return consola.error('An error occurred during plugin execution:', error);
     }
   })();
 };

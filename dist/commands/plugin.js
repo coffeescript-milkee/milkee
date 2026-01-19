@@ -128,11 +128,11 @@ updatePackageJson = function() {
       }
     }
     fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n');
-    consola.success("Updated `package.json`");
+    consola.success('Updated `package.json`');
     return true;
   } catch (error1) {
     error = error1;
-    consola.error("Failed to update package.json:", error);
+    consola.error('Failed to update package.json:', error);
     return false;
   }
 };
@@ -142,16 +142,16 @@ initPackageJson = function() {
   var error, pkgPath;
   pkgPath = path.join(CWD, 'package.json');
   if (!fs.existsSync(pkgPath)) {
-    consola.start("Initializing package.json...");
+    consola.start('Initializing package.json...');
     try {
       execSync('npm init', {
         cwd: CWD,
         stdio: 'inherit'
       });
-      consola.success("Created `package.json`");
+      consola.success('Created `package.json`');
     } catch (error1) {
       error = error1;
-      consola.error("Failed to create package.json:", error);
+      consola.error('Failed to create package.json:', error);
       return false;
     }
   }
@@ -176,11 +176,11 @@ generateReadme = function() {
     readme = readme.replace(/\{\{name\}\}/g, name);
     readme = readme.replace(/\{\{description\}\}/g, description);
     fs.writeFileSync(readmePath, readme);
-    consola.success("Created `README.md`");
+    consola.success('Created `README.md`');
     return true;
   } catch (error1) {
     error = error1;
-    consola.error("Failed to create README.md:", error);
+    consola.error('Failed to create README.md:', error);
     return false;
   }
 };
@@ -188,41 +188,41 @@ generateReadme = function() {
 // Main plugin setup function
 plugin = async function() {
   var confirmed, destPath, doc, error, i, j, k, l, len, len1, len2, len3, overwrite, pkgPath, readmePath, template;
-  consola.box("Milkee Plugin Setup");
-  consola.info("This will set up your project as a Milkee plugin.");
-  consola.info("");
-  consola.info("The following actions will be performed:");
+  consola.box('Milkee Plugin Setup');
+  consola.info('This will set up your project as a Milkee plugin.');
+  consola.info('');
+  consola.info('The following actions will be performed:');
   pkgPath = path.join(CWD, 'package.json');
   if (!fs.existsSync(pkgPath)) {
-    consola.info("  0. Initialize package.json (npm init)");
+    consola.info('  0. Initialize package.json (npm init)');
   }
-  consola.info("  1. Install dependencies (consola, coffeescript, milkee)");
-  consola.info("  2. Create template files:");
+  consola.info('  1. Install dependencies (consola, coffeescript, milkee)');
+  consola.info('  2. Create template files:');
   for (i = 0, len = TEMPLATES.length; i < len; i++) {
     template = TEMPLATES[i];
     consola.info(`     - ${template.dest}`);
   }
-  consola.info("  3. Copy docs:");
+  consola.info('  3. Copy docs:');
   for (j = 0, len1 = DOCS.length; j < len1; j++) {
     doc = DOCS[j];
     consola.info(`     - ${doc.dest}`);
   }
-  consola.info("  4. Update package.json (main, scripts, keywords)");
-  consola.info("  5. Generate README.md");
-  consola.info("");
+  consola.info('  4. Update package.json (main, scripts, keywords)');
+  consola.info('  5. Generate README.md');
+  consola.info('');
   // Confirm before proceeding
   confirmed = (await confirmContinue());
   if (!confirmed) {
     return;
   }
-  consola.info("");
+  consola.info('');
   // Initialize package.json if not exists
   if (!initPackageJson()) {
     return;
   }
   try {
     // Install dependencies
-    consola.start("Installing dependencies...");
+    consola.start('Installing dependencies...');
     execSync('npm install consola', {
       cwd: CWD,
       stdio: 'inherit'
@@ -231,21 +231,21 @@ plugin = async function() {
       cwd: CWD,
       stdio: 'inherit'
     });
-    consola.success("Dependencies installed!");
+    consola.success('Dependencies installed!');
   } catch (error1) {
     error = error1;
-    consola.error("Failed to install dependencies:", error);
+    consola.error('Failed to install dependencies:', error);
     return;
   }
-  consola.info("");
+  consola.info('');
   // Create template files
-  consola.start("Creating template files...");
+  consola.start('Creating template files...');
   for (k = 0, len2 = TEMPLATES.length; k < len2; k++) {
     template = TEMPLATES[k];
     destPath = path.join(CWD, template.dest);
     if (fs.existsSync(destPath)) {
       overwrite = (await consola.prompt(`${template.dest} already exists. Overwrite?`, {
-        type: "confirm"
+        type: 'confirm'
       }));
       if (!overwrite) {
         consola.info(`Skipped \`${template.dest}\``);
@@ -254,15 +254,15 @@ plugin = async function() {
     }
     copyTemplate(template.src, template.dest);
   }
-  consola.info("");
+  consola.info('');
   // Copy docs
-  consola.start("Copying docs...");
+  consola.start('Copying docs...');
   for (l = 0, len3 = DOCS.length; l < len3; l++) {
     doc = DOCS[l];
     destPath = path.join(CWD, doc.dest);
     if (fs.existsSync(destPath)) {
       overwrite = (await consola.prompt(`${doc.dest} already exists. Overwrite?`, {
-        type: "confirm"
+        type: 'confirm'
       }));
       if (!overwrite) {
         consola.info(`Skipped \`${doc.dest}\``);
@@ -271,32 +271,32 @@ plugin = async function() {
     }
     copyDocs(doc.src, doc.dest);
   }
-  consola.info("");
+  consola.info('');
   // Update package.json
-  consola.start("Updating package.json...");
+  consola.start('Updating package.json...');
   updatePackageJson();
-  consola.info("");
+  consola.info('');
   // Generate README.md
   readmePath = path.join(CWD, 'README.md');
   if (fs.existsSync(readmePath)) {
-    overwrite = (await consola.prompt("README.md already exists. Overwrite?", {
-      type: "confirm"
+    overwrite = (await consola.prompt('README.md already exists. Overwrite?', {
+      type: 'confirm'
     }));
     if (overwrite) {
       generateReadme();
     } else {
-      consola.info("Skipped `README.md`");
+      consola.info('Skipped `README.md`');
     }
   } else {
     generateReadme();
   }
-  consola.info("");
-  consola.success("Milkee plugin setup complete!");
-  consola.info("");
-  consola.info("Next steps:");
-  consola.info("  1. Edit `src/main.coffee` to implement your plugin");
-  consola.info("  2. Run `npm run build` to compile");
-  return consola.info("  3. Test your plugin locally");
+  consola.info('');
+  consola.success('Milkee plugin setup complete!');
+  consola.info('');
+  consola.info('Next steps:');
+  consola.info('  1. Edit `src/main.coffee` to implement your plugin');
+  consola.info('  2. Run `npm run build` to compile');
+  return consola.info('  3. Test your plugin locally');
 };
 
 module.exports = plugin;

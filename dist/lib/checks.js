@@ -20,7 +20,7 @@ checkLatest = async function() {
     res = (await isPackageLatest(pkg));
     if (res.success && !res.isLatest) {
       consola.box({
-        title: "A new version is now available!",
+        title: 'A new version is now available!',
         message: `${res.currentVersion} --> \`${res.latestVersion}\`\n\n# global installation\n\`npm i -g milkee@latest\`\n# or local installation\n\`npm i -D milkee@latest\``
       });
       return true;
