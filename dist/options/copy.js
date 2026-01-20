@@ -50,7 +50,7 @@ executeCopy = function(config) {
           results.push(copyNonCoffeeFiles(srcItemPath, destItemPath));
         } else {
           // Skip .coffee files
-          if (item.endsWith('.coffee' || item.endsWith('.litcoffee'))) {
+          if (/\.coffee$|\.litcoffee$/i.test(item)) {
             // skip
             results.push(null);
           } else {
