@@ -120,6 +120,7 @@ module.exports = {
 
 | オプション | 型 | デフォルト | 説明 |
 | :--- | :--- | :--- | :--- |
+| `ignoreUpdate` | `boolean` | `false` | アップデート通知を無視する |
 | `refresh` | `boolean` | `false` | コンパイル前に出力ディレクトリをリセットする |
 | `confirm` | `boolean` | `false` | コンパイル前に「実行しますか？」と確認する |
 | `copy` | `boolean` | `false` | コンパイル後に entry から output へ非 CoffeeScript ファイルをコピーする（`options.join` が false の場合のみ） |

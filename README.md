@@ -120,6 +120,7 @@ These options control Milkee's behavior.
 
 | Option | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
+| `ignoreUpdate` | `boolean` | `false` | Ignore update notifications. |
 | `refresh` | `boolean` | `false` | Before compiling, reset the output directory. |
 | `confirm` | `boolean` | `false` | Before compiling, prompt "Do you want to Continue?". |
 | `copy` | `boolean` | `false` | After compiling, copy non-coffee files from entry to output directory. (Only works when `options.join` is `false`) |
