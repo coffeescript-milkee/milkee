@@ -42,7 +42,10 @@ executeCopy = (config) ->
           copyNonCoffeeFiles srcItemPath, destItemPath
         else
           # Skip .coffee files
-          unless item.endsWith '.coffee'
+          if /\.coffee$|\.litcoffee$/i.test item
+            # skip
+            null
+          else
             # Create parent directory if needed
             parentDir = path.dirname destItemPath
             unless fs.existsSync parentDir
