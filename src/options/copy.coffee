@@ -47,8 +47,11 @@ executeCopy = (config) ->
             fs.mkdirSync destItemPath, recursive: true
           copyNonCoffeeFiles srcItemPath, destItemPath
         else
-          # Skip .coffee files
-          unless item.endsWith '.coffee'
+          # Skip .coffee and .litcoffee files (case-insensitive)
+          if /\.coffee$/i.test(item) or /\.litcoffee$/i.test(item)
+            # Skip
+            null
+          else
             # Create parent directory if needed
             parentDir = path.dirname destItemPath
             unless fs.existsSync parentDir
