@@ -1,5 +1,6 @@
 # Milkee
 
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Vitest](https://github.com/otoneko1102/coffeescript-milkee/actions/workflows/test.yml/badge.svg)](https://github.com/otoneko1102/coffeescript-milkee/actions)
 [![npm version](https://img.shields.io/npm/v/milkee.svg)](https://www.npmjs.com/package/milkee)
 [![Downloads](https://img.shields.io/npm/dw/milkee.svg)](https://www.npmjs.com/package/milkee)
