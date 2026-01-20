@@ -47,8 +47,8 @@ executeCopy = (config) ->
             fs.mkdirSync destItemPath, recursive: true
           copyNonCoffeeFiles srcItemPath, destItemPath
         else
-          # Skip .coffee and .litcoffee files (case-insensitive)
-          if /\.coffee$/i.test(item) or /\.litcoffee$/i.test(item)
+          # Skip .coffee and .litcoffee files
+          if /\.coffee$|\.litcoffee$/i.test item
             # Skip
             null
           else
