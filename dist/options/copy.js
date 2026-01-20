@@ -50,7 +50,10 @@ executeCopy = function(config) {
           results.push(copyNonCoffeeFiles(srcItemPath, destItemPath));
         } else {
           // Skip .coffee files
-          if (!item.endsWith('.coffee')) {
+          if (/\.coffee$|\.litcoffee$/i.test(item)) {
+            // skip
+            results.push(null);
+          } else {
             // Create parent directory if needed
             parentDir = path.dirname(destItemPath);
             if (!fs.existsSync(parentDir)) {
@@ -60,8 +63,6 @@ executeCopy = function(config) {
             }
             // Copy file
             results.push(fs.copyFileSync(srcItemPath, destItemPath));
-          } else {
-            results.push(void 0);
           }
         }
       }
