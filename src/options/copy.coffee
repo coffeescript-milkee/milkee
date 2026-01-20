@@ -42,7 +42,7 @@ executeCopy = (config) ->
           copyNonCoffeeFiles srcItemPath, destItemPath
         else
           # Skip .coffee and .litcoffee files
-          if item.endsWith '.coffee' or item.endsWith '.litcoffee'
+          if /\.coffee$|\.litcoffee$/i.test item
             # Skip
             null
           else
