@@ -83,9 +83,11 @@ module.exports = {
   // (Optional) Additional options/plugins for the Milkee builder.
   milkee: {
     options: {
+      // Ignore update notifications.
+      // ignoreUpdate: false,
       // Before compiling, reset the directory.
       // refresh: false,
-      // Before compiling, prompt "Do you want to Continue?".
+      // Before compiling, confirm "Do you want to Continue?"
       // confirm: false,
       // After compiling, copy non-coffee files from entry to output directory. (Only works when options.join is false)
       // copy: false,

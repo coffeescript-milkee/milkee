@@ -83,6 +83,8 @@ module.exports = {
   // (任意) Milkee ビルダーの追加オプション / プラグイン。
   milkee: {
     options: {
+      // アップデート通知を無視します。
+      // ignoreUpdate: false,
       // コンパイル前に出力ディレクトリをリセットします。
       // refresh: false,
       // コンパイル前に「実行しますか？」と確認します。
