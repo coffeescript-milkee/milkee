@@ -53,3 +53,12 @@ jobs:
           VERSION=$(node -p "require('./package.json').version")
           git tag "v$VERSION"
           git push origin "v$VERSION"
+
+      - name: Add vX.Y-lts npm dist-tag
+        run: |
+          PKG=$(node -p "require('./package.json').name")
+          VER=$(node -p "require('./package.json').version")
+          TAG="v$(node -p \"require('./package.json').version.split('.').slice(0,2).join('.')\")-lts"
+          npm dist-tag add "$PKG@$VER" "$TAG"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
