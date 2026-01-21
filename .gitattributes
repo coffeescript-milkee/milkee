@@ -1,4 +1,5 @@
 *.coffee linguist-language=CoffeeScript
+*.litcoffee linguist-language=CoffeeScript
 dist/** linguist-generated
 scripts/** linguist-vendored
 test/** linguist-vendored
