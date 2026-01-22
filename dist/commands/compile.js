@@ -216,7 +216,15 @@ compile = async function() {
         if (debounceTimeout) {
           clearTimeout(debounceTimeout);
         }
-        return debounceTimeout = setTimeout(function() {
+        return debounceTimeout = setTimeout(async function() {
+          if (milkeeOptions.copy) {
+            try {
+              await executeCopy(config);
+            } catch (error1) {
+              error = error1;
+              consola.error('Failed to copy non-coffee files');
+            }
+          }
           if (lastError) {
             consola.warn('Compilation failed, plugins skipped.');
           } else {
