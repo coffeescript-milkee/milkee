@@ -58,7 +58,7 @@ jobs:
         run: |
           PKG=$(node -p "require('./package.json').name")
           VER=$(node -p "require('./package.json').version")
-          TAG="v$(node -p \"require('./package.json').version.split('.').slice(0,2).join('.')\")-lts"
+          TAG="v${VER%.*}-lts"
           npm dist-tag add "$PKG@$VER" "$TAG"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
