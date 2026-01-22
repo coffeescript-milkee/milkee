@@ -168,6 +168,11 @@ compile = () ->
           clearTimeout debounceTimeout
 
         debounceTimeout = setTimeout ->
+          if milkeeOptions.copy
+            try
+              await executeCopy config
+            catch error
+              consola.error 'Failed to copy non-coffee files'
           if lastError
             consola.warn "Compilation failed, plugins skipped."
           else
