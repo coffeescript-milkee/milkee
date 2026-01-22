@@ -10,7 +10,7 @@
 
 [![Milkee logo](./img/Milkee-logo.png)](https://milkee.org)  
 
-A simple CoffeeScript build tool with [coffee.config.cjs](./temp/coffee.config.cjs)  
+A simple CoffeeScript build tool with [coffee.config.cjs](./temp/coffee.config.cjs) ☕  
 
 Official site: https://milkee.org  
 
