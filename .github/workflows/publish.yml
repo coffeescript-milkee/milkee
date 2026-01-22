@@ -35,7 +35,15 @@ jobs:
           git push
 
       - name: Publish to npm
-        run: npm publish --provenance --access public
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          # If version includes 'dev', publish with 'dev' tag, otherwise use 'latest'
+          if echo "$VERSION" | grep -q 'dev'; then
+            TAG=dev
+          else
+            TAG=latest
+          fi
+          npm publish --provenance --access public --tag "$TAG"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -45,3 +53,12 @@ jobs:
           VERSION=$(node -p "require('./package.json').version")
           git tag "v$VERSION"
           git push origin "v$VERSION"
+
+      - name: Add vX.Y-lts npm dist-tag
+        run: |
+          PKG=$(node -p "require('./package.json').name")
+          VER=$(node -p "require('./package.json').version")
+          TAG="v$(node -p \"require('./package.json').version.split('.').slice(0,2).join('.')\")-lts"
+          npm dist-tag add "$PKG@$VER" "$TAG"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
