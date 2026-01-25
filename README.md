@@ -10,7 +10,7 @@
 
 [![Milkee logo](./img/Milkee-logo.png)](https://milkee.org)  
 
-A simple CoffeeScript build tool with [coffee.config.cjs](./temp/coffee.config.cjs) ☕  
+A simple CoffeeScript build tool with [coffee.config.cjs](./temp/setup/coffee.config.cjs) ☕  
 
 Official site: https://milkee.org  
 
@@ -43,7 +43,7 @@ npm i -D coffeescript @babel/core
 
 ### Setup
 
-Run `-s` (`--setup`) command, generate [coffee.config.cjs](./temp/coffee.config.cjs)!  
+Run `-s` (`--setup`) command, generate [coffee.config.cjs](./temp/setup/coffee.config.cjs)!  
 
 ```bash
 # global
@@ -148,7 +148,7 @@ module.exports = {
 
 ### Compile
 
-Milkee will automatically read `coffee.config.cjs`, assemble the command from your `options`, and start compilation!  
+Milkee will automatically read [coffee.config.cjs](./temp/setup/coffee.config.cjs), assemble the command from your `options`, and start compilation!  
 
 ```bash
 # global
