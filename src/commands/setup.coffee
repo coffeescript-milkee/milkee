@@ -39,11 +39,7 @@ copyTemplate = (src, dest) ->
   consola.success "Created `#{dest}`"
   return true
 
-SETUP_KEYWORDS = [
-  'milkee'
-  'coffeescript'
-  'coffee'
-]
+SETUP_KEYWORDS = ['milkee', 'coffeescript', 'coffee']
 
 # Update package.json
 updatePackageJson = ->

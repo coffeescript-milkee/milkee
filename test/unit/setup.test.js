@@ -3,6 +3,8 @@ const path = require('path');
 const os = require('os');
 const { execSync } = require('child_process');
 
+vi.mock('../../src/options/confirm', () => vi.fn());
+
 const setup = require('../../src/commands/setup.coffee');
 const { CONFIG_FILE, CWD } = require('../../src/lib/constants.coffee');
 
@@ -16,6 +18,7 @@ describe('setup', () => {
   let mockConsolaError;
   let mockConsolaBox;
   let mockConsolaWarn;
+  let mockConfirmContinue;
 
   beforeEach(() => {
     cwd = process.cwd();
@@ -30,6 +33,9 @@ describe('setup', () => {
     mockConsolaError = vi.spyOn(consola, 'error');
     mockConsolaBox = vi.spyOn(consola, 'box');
     mockConsolaWarn = vi.spyOn(consola, 'warn');
+
+    mockConfirmContinue = require('../../src/options/confirm');
+    mockConfirmContinue.mockResolvedValue(true);
   });
 
   afterEach(() => {
@@ -146,8 +152,7 @@ describe('setup', () => {
     process.chdir(dir);
 
     // Mock confirmContinue to return false
-    const confirmContinue = require('../../src/options/confirm');
-    vi.spyOn(confirmContinue, 'default').mockResolvedValue(false);
+    mockConfirmContinue.mockResolvedValue(false);
 
     delete require.cache[require.resolve('../../src/commands/setup.coffee')];
     const setupLocal = require('../../src/commands/setup.coffee');
