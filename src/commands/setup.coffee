@@ -126,8 +126,11 @@ setup = ->
   consola.info '  4. Generate README.md'
   consola.info ''
 
-  # Confirm before proceeding
-  confirmed = await confirmContinue()
+  # Confirm before proceeding (skip prompt in non-interactive environments)
+  if process.stdin and not process.stdin.isTTY
+    confirmed = true
+  else
+    confirmed = await confirmContinue()
   unless confirmed
     return
 

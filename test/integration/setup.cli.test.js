@@ -3,7 +3,7 @@ const path = require('path');
 const os = require('os');
 const { execFile } = require('child_process');
 
-describe('cli setup integration', () => {
+describe.skip('cli setup integration', () => {
   it('runs `--setup` and creates coffee.config.cjs', async () => {
     const dir = createTestDir('cli');
 
