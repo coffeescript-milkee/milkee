@@ -1,0 +1,22 @@
+name: Mirror to Organization
+
+on:
+  push:
+    branches: [ "main", "patch-*" ]
+  workflow_dispatch:
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Mirror to Org
+        run: |
+          REMOTE_REPO="https://git-action:${{ secrets.SYNC_TOKEN }}@github.com/coffeescript-milkee/milkee.git"
+          git remote add target "$REMOTE_REPO"
+          git push --force --prune target "refs/remotes/origin/*:refs/heads/*"
+          git push --tags target
