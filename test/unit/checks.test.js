@@ -1,29 +1,29 @@
-const fs = require("fs");
-const path = require("path");
-const consola = require("consola");
+const fs = require('fs');
+const path = require('path');
+const consola = require('consola');
 
 // We re-require the checks module inside tests to allow us to mock dependencies
 // that it captures at require-time.
 
-describe("checks", () => {
+describe('checks', () => {
   afterEach(() => {
     vi.restoreAllMocks();
     vi.resetModules();
   });
 
-  it("checkLatest returns true and shows box when not latest", async () => {
+  it('checkLatest returns true and shows box when not latest', async () => {
     vi.resetModules();
-    vi.doMock("is-package-latest", () => ({
+    vi.doMock('is-package-latest', () => ({
       isPackageLatest: async () => ({
         success: true,
         isLatest: false,
-        currentVersion: "1.0.0",
-        latestVersion: "1.2.0",
+        currentVersion: '1.0.0',
+        latestVersion: '1.2.0',
       }),
     }));
-    const { checkLatest } = require("../../src/lib/checks.coffee");
+    const { checkLatest } = require('../../src/lib/checks.coffee');
 
-    vi.spyOn(consola, "box").mockImplementation(() => {});
+    vi.spyOn(consola, 'box').mockImplementation(() => {});
 
     const res = await checkLatest();
     if (res === true) {
@@ -33,9 +33,9 @@ describe("checks", () => {
     }
   });
 
-  it("checkCoffee reads package.json and does not warn when coffeescript present", async () => {
-    const { checkCoffee } = require("../../src/lib/checks.coffee");
-    vi.spyOn(consola, "warn").mockImplementation(() => {});
+  it('checkCoffee reads package.json and does not warn when coffeescript present', async () => {
+    const { checkCoffee } = require('../../src/lib/checks.coffee');
+    vi.spyOn(consola, 'warn').mockImplementation(() => {});
     await checkCoffee();
     expect(consola.warn).not.toHaveBeenCalled();
   });

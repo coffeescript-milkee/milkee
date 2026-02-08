@@ -53,3 +53,18 @@ jobs:
           VERSION=$(node -p "require('./package.json').version")
           git tag "v$VERSION"
           git push origin "v$VERSION"
+
+      - name: Add vX.Y-lts npm dist-tag
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          # Skip adding lts tag for dev versions
+          if echo "$VERSION" | grep -q 'dev'; then
+            echo "Dev version detected; skipping lts dist-tag."
+          else
+            PKG=$(node -p "require('./package.json').name")
+            VER="$VERSION"
+            TAG="v${VER%.*}-lts"
+            npm dist-tag add "$PKG@$VER" "$TAG"
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

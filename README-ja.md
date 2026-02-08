@@ -1,19 +1,16 @@
 # Milkee
 
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Vitest](https://github.com/otoneko1102/coffeescript-milkee/actions/workflows/test.yml/badge.svg)](https://github.com/otoneko1102/coffeescript-milkee/actions)
 [![npm version](https://img.shields.io/npm/v/milkee.svg)](https://www.npmjs.com/package/milkee)
 [![Downloads](https://img.shields.io/npm/dw/milkee.svg)](https://www.npmjs.com/package/milkee)
 [![License](https://img.shields.io/npm/l/milkee.svg)](./LICENSE)
 
-<a href="https://www.buymeacoffee.com/devuloper" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
-
-<a href='https://ko-fi.com/E1E41LY2C9' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi6.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
-
 [English](./README.md) | **日本語**  
 
 [![Milkee logo](./img/Milkee-logo.png)](https://milkee.org)  
 
-`coffee.config.cjs` を使ったシンプルな CoffeeScript ビルドツール  
+[coffee.config.cjs](./temp/setup/coffee.config.cjs) を使ったシンプルな CoffeeScript ビルドツール ☕  
 
 公式サイト: https://milkee.org  
 
@@ -46,7 +43,7 @@ npm i -D coffeescript @babel/core
 
 ### セットアップ
 
-`-s` (`--setup`) コマンドを実行すると、`coffee.config.cjs` が生成されます！  
+`-s` (`--setup`) コマンドを実行すると、[coffee.config.cjs](./temp/setup/coffee.config.cjs) が生成されます！  
 
 ```bash
 # グローバル
@@ -86,6 +83,8 @@ module.exports = {
   // (任意) Milkee ビルダーの追加オプション / プラグイン。
   milkee: {
     options: {
+      // アップデート通知を無視します。
+      // ignoreUpdate: false,
       // コンパイル前に出力ディレクトリをリセットします。
       // refresh: false,
       // コンパイル前に「実行しますか？」と確認します。
@@ -121,6 +120,7 @@ module.exports = {
 
 | オプション | 型 | デフォルト | 説明 |
 | :--- | :--- | :--- | :--- |
+| `ignoreUpdate` | `boolean` | `false` | アップデート通知を無視する |
 | `refresh` | `boolean` | `false` | コンパイル前に出力ディレクトリをリセットする |
 | `confirm` | `boolean` | `false` | コンパイル前に「実行しますか？」と確認する |
 | `copy` | `boolean` | `false` | コンパイル後に entry から output へ非 CoffeeScript ファイルをコピーする（`options.join` が false の場合のみ） |
@@ -148,7 +148,7 @@ module.exports = {
 
 ### コンパイル
 
-Milkee は自動で `coffee.config.cjs` を読み、`options` からコマンドを組み立ててコンパイルを開始します！  
+Milkee は自動で [coffee.config.cjs](./temp/setup/coffee.config.cjs) を読み、`options` からコマンドを組み立ててコンパイルを開始します！  
 
 ```bash
 # グローバル
@@ -164,3 +164,9 @@ npx milkee
 
 - [English](./docs/PLUGIN.md)
 - [日本語](./docs/PLUGIN-ja.md)
+
+## 寄付
+
+<a href="https://www.buymeacoffee.com/devuloper" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
+<a href='https://ko-fi.com/E1E41LY2C9' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi6.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>

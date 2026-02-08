@@ -1,19 +1,16 @@
 # Milkee
 
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Vitest](https://github.com/otoneko1102/coffeescript-milkee/actions/workflows/test.yml/badge.svg)](https://github.com/otoneko1102/coffeescript-milkee/actions)
 [![npm version](https://img.shields.io/npm/v/milkee.svg)](https://www.npmjs.com/package/milkee)
 [![Downloads](https://img.shields.io/npm/dw/milkee.svg)](https://www.npmjs.com/package/milkee)
 [![License](https://img.shields.io/npm/l/milkee.svg)](./LICENSE)
 
-<a href="https://www.buymeacoffee.com/devuloper" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
-
-<a href='https://ko-fi.com/E1E41LY2C9' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi6.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
-
 **English** | [日本語](./README-ja.md)  
 
 [![Milkee logo](./img/Milkee-logo.png)](https://milkee.org)  
 
-A simple CoffeeScript build tool with [coffee.config.cjs](./temp/coffee.config.cjs)  
+A simple CoffeeScript build tool with [coffee.config.cjs](./temp/setup/coffee.config.cjs) ☕  
 
 Official site: https://milkee.org  
 
@@ -46,7 +43,7 @@ npm i -D coffeescript @babel/core
 
 ### Setup
 
-Run `-s` (`--setup`) command, generate [coffee.config.cjs](./temp/coffee.config.cjs)!  
+Run `-s` (`--setup`) command, generate [coffee.config.cjs](./temp/setup/coffee.config.cjs)!  
 
 ```bash
 # global
@@ -86,9 +83,11 @@ module.exports = {
   // (Optional) Additional options/plugins for the Milkee builder.
   milkee: {
     options: {
+      // Ignore update notifications.
+      // ignoreUpdate: false,
       // Before compiling, reset the directory.
       // refresh: false,
-      // Before compiling, prompt "Do you want to Continue?".
+      // Before compiling, confirm "Do you want to Continue?"
       // confirm: false,
       // After compiling, copy non-coffee files from entry to output directory. (Only works when options.join is false)
       // copy: false,
@@ -121,6 +120,7 @@ These options control Milkee's behavior.
 
 | Option | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
+| `ignoreUpdate` | `boolean` | `false` | Ignore update notifications. |
 | `refresh` | `boolean` | `false` | Before compiling, reset the output directory. |
 | `confirm` | `boolean` | `false` | Before compiling, prompt "Do you want to Continue?". |
 | `copy` | `boolean` | `false` | After compiling, copy non-coffee files from entry to output directory. (Only works when `options.join` is `false`) |
@@ -148,7 +148,7 @@ module.exports = {
 
 ### Compile
 
-Milkee will automatically read `coffee.config.cjs`, assemble the command from your `options`, and start compilation!  
+Milkee will automatically read [coffee.config.cjs](./temp/setup/coffee.config.cjs), assemble the command from your `options`, and start compilation!  
 
 ```bash
 # global
@@ -164,3 +164,9 @@ Want to create your own Milkee plugin? Check out the plugin documentation:
 
 - [English](./docs/PLUGIN.md)
 - [日本語](./docs/PLUGIN-ja.md)
+
+## Donate
+
+<a href="https://www.buymeacoffee.com/devuloper" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
+<a href='https://ko-fi.com/E1E41LY2C9' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi6.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
