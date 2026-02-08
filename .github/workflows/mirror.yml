@@ -2,7 +2,7 @@ name: Mirror to Organization
 
 on:
   push:
-    branches: [ "main", "patch-*" ]
+    branches: [ "main" ,"dev", "patch-*" ]
   workflow_dispatch:
 
 jobs:
