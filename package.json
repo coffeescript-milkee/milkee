@@ -39,7 +39,7 @@
   "dependencies": {
     "@milkee/d": "^0.3.0",
     "consola": "^3.4.2",
-    "is-package-latest": "^2.0.2",
+    "is-package-latest": "^2.0.3",
     "yargs": "^18.0.0"
   },
   "devDependencies": {
